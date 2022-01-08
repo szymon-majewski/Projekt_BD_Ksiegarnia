@@ -75,8 +75,8 @@ CREATE TABLE Klienci (
 [ID Kategorii] INT NOT NULL,
 Imie NVARCHAR(50) NOT NULL,
 Nazwisko NVARCHAR(50) NOT NULL,
-[Nazwa Konta] NVARCHAR(50) NOT NULL,
-[Haslo Do Konta] NVARCHAR(50) NOT NULL,
+[Nazwa Konta] NVARCHAR(50),
+[Haslo Do Konta] NVARCHAR(50),
 [ID Adresu] INT,
 Telefon INT,
 Email NVARCHAR(50) UNIQUE NOT NULL,
@@ -97,22 +97,35 @@ PRIMARY KEY([ID Firmy], Typ)
 CREATE TABLE Zmiany (
 [ID Zmiany] INT IDENTITY(1, 1) PRIMARY KEY,
 [Godzina Rozpoczecia] TIME NOT NULL,
-[Godzina Zakonczenia] TIME NOT NULL
+[Godzina Zakonczenia] TIME NOT NULL,
+Dzien NVARCHAR(10)
 );
+
+CREATE TABLE Stanowiska (
+[ID stanowiska] INT IDENTITY(1,1) PRIMARY KEY,
+Nazwa NVARCHAR(50) NOT NULL UNIQUE,
+Obowiazki NVARCHAR(200),
+Kwalifikacje NVARCHAR(200),
+[Pensja podstawowa] MONEY,
+)
+
 
 CREATE TABLE Pracownicy (
 [ID pracownika] INT PRIMARY KEY,
 Imie NVARCHAR(50) NOT NULL,
 Nazwisko NVARCHAR(50) NOT NULL,
---FOREIGN KEY [ID kategorii],
---FOREIGN KEY Przelozony REFERENCES, 
+[ID przelozonego] INT,
+[ID stanowiska] INT NOT NULL,
 Pensja MONEY NOT NULL
+
+FOREIGN KEY ([ID stanowiska]) REFERENCES Stanowiska([ID Stanowiska])
 );
 
 CREATE TABLE Urlopy (
 [ID pracownika] INT,
 [Data od] DATE,
 [Data do] DATE NOT NULL,
+
 PRIMARY KEY ([ID pracownika], [Data od]),
 FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 );
@@ -121,6 +134,7 @@ CREATE TABLE [Historia pensji] (
 [ID pracownika] INT,
 [Data zatrudnienia] DATE,
 [Data zmiany pensji] DATE NOT NULL,
+
 PRIMARY KEY ([ID pracownika], [Data zatrudnienia]),
 FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 );
@@ -128,8 +142,9 @@ FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 CREATE TABLE [Historia zatrudnien] (
 [ID pracownika] INT,
 [Data zatrudnienia] DATE,
-Stanowisko INT NOT NULL, --???? kategorie pracownicze??
+Stanowisko INT NOT NULL, 
 [Data zwolnienia] DATE,
+
 PRIMARY KEY ([ID pracownika], [Data zatrudnienia])
 );
 
@@ -143,7 +158,6 @@ CREATE TABLE Zamowienia (
 [ID pracownika] INT NOT NULL,
 [ID punktu odbioru] INT,
 
-
 FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu]),
 FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]),
 FOREIGN KEY ([ID klienta]) REFERENCES Klienci([ID klienta]),
@@ -153,67 +167,50 @@ FOREIGN KEY ([ID punktu odbioru]) REFERENCES [Punkty odbioru]([ID punktu]),
 CREATE TABLE [Kategorie ksiazek] (
 [ID kategorii] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) NOT NULL,
---Opis??
 );
-
-CREATE TABLE [Przedstawiciele handlowi] (
-[ID przedstawiciela] INT IDENTITY(1,1) PRIMARY KEY,
-Imie NVARCHAR(50) NOT NULL,
-Nazwisko NVARCHAR(50) NOT NULL,
-Tytul NVARCHAR(50), --????
-Telefon INT,
-[E-mail] NVARCHAR(50)
-);
-
 
 CREATE TABLE Dostawcy (
 [ID dostawcy] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) NOT NULL,
---tutaj stworzylam now¹ tabele przedstawiciele jak cos
-[ID przedstawiciela] INT, 
 [ID adresu] INT,
 Telefon INT,
-[E-mail] NVARCHAR(50),
+[E-mail] NVARCHAR(50) NOT NULL,
+[Imie przedstawiciela] NVARCHAR(50) NOT NULL,
+[Nazwisko przedstawiciela] NVARCHAR(50) NOT NULL,
+[Telefon przedstawiciela] INT,
+[E-mail przedstawiciela] NVARCHAR(50) NOT NULL,
 
-FOREIGN KEY ([ID przedstawiciela]) REFERENCES [Przedstawiciele handlowi]([ID przedstawiciela]),
 FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu])
 );
-
 
 
 CREATE TABLE Wydawcy (
 [ID wydawcy] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) NOT NULL,
 [ID adresu] INT,
---rok zalozenia?
 
 FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu])
 );
 
-
---podzielic na szczegoly?
---dodac tabelke magazyn
 CREATE TABLE Produkty (
 [ID produktu] INT PRIMARY KEY,
 [ID kategorii] INT NOT NULL,
 Tytul NVARCHAR(50) NOT NULL,
-[ID autora] INT,
+[ID autora] INT NOT NULL,
 [ID serii] INT,
 [Czesc serii] INT,
 Jezyk NVARCHAR(50) NOT NULL,
-[Jezyk oryginalu] NVARCHAR(50), --moze byc null bo moze byc nieznany?
+[Jezyk oryginalu] NVARCHAR(50), 
 [ID wydawcy] INT NOT NULL,
-ISBN13 INT,
+ISBN13 INT NOT NULL,
 [Data wydania] DATE,
-[Format] NVARCHAR(50),	--skoro jest format to po co wymiary lub moze zostawic same wymiary?
+[Oprawa] NVARCHAR(50),
 Wymiary NVARCHAR(50),
 [Liczba stron] INT,
-[Ilosc w magazynie] INT,
-[Ilosc dostepna od reki] INT,
---dostepna u wydawcy?
-[Cena rynkowa] MONEY,
-[Cena detaliczna] MONEY,
---koszt dla nas?
+[Ilosc w magazynie] INT NOT NULL,
+[Ilosc w salonie] INT NOT NULL,
+[Cena hurtowa] MONEY NOT NULL,
+[Cena detaliczna] MONEY NOT NULL,
 
 FOREIGN KEY ([ID kategorii]) REFERENCES [Kategorie ksiazek]([ID kategorii]),
 FOREIGN KEY ([ID autora]) REFERENCES Autorzy([ID autora]),
@@ -226,9 +223,50 @@ CREATE TABLE [Szczegoly zamowien] (
 [ID produktu] INT,
 Cena MONEY NOT NULL,
 Ilosc INT NOT NULL,
-Rabat REAL NOT NULL,
+Obnizka REAL NOT NULL,	
 
 PRIMARY KEY ([ID zamowienia], [ID produktu]),
 FOREIGN KEY ([ID zamowienia]) REFERENCES Zamowienia([ID zamowienia]),
 FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu])
+);
+
+
+CREATE TABLE [Grafik Zmian] (
+[ID Zmiany] INT NOT NULL,
+[ID Pracownika] INT NOT NULL,
+[Data Rozpoczecia] DATETIME,
+[Data Zakonczenia] DATETIME
+FOREIGN KEY ([ID Pracownika]) REFERENCES Pracownicy([ID Pracownika]),
+PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data Rozpoczecia])
+);
+
+
+CREATE TABLE [Zapotrzebowanie Na Pracownikow] (
+[ID Stanowiska] INT PRIMARY KEY,
+[Ilosc Potrzebnych Pracownikow] INT,
+FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]),
+);
+
+
+CREATE TABLE [Skargi Pracownicze] (
+[ID Skladajacego] INT,
+[ID Oskarzonego] INT,
+Data DATETIME,
+Tresc NVARCHAR(500),
+[Komentarz Przelozonego] NVARCHAR(200),
+FOREIGN KEY ([ID Skladajacego]) REFERENCES Pracownicy([ID Pracownika]),
+FOREIGN KEY ([ID Oskarzonego]) REFERENCES Pracownicy([ID Pracownika]),
+PRIMARY KEY([ID Skladajacego], [ID Oskarzonego], Data)
+);
+
+
+CREATE TABLE [Opinie Klientow] (
+[ID Pracownika] INT NOT NULL,
+[ID Klienta] INT NOT NULL,
+Data DATETIME,
+Tresc NVARCHAR(500),
+Ocena INT,
+FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]),
+FOREIGN KEY ([ID Klienta]) REFERENCES Klienci([ID Klienta]),
+PRIMARY KEY ([ID Pracownika], [ID Klienta], Data)
 );
