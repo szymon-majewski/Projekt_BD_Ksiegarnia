@@ -2,7 +2,8 @@ CREATE TABLE Adresy (
 [ID adresu] INT IDENTITY(1,1) PRIMARY KEY,
 Miasto NVARCHAR(50) NOT NULL,
 Ulica NVARCHAR(50) NOT NULL,
-[Nr lokalu] INT NOT NULL,
+[Nr budynku] INT NOT NULL,
+[Nr lokalu] INT,
 [Kod pocztowy] NVARCHAR(10) NOT NULL
 );
 
@@ -24,7 +25,8 @@ FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 CREATE TABLE Autorzy (
 [ID Autora] INT IDENTITY(1, 1) PRIMARY KEY,
 Imie NVARCHAR(50) NOT NULL,
-Nazwisko NVARCHAR(50) NOT NULL
+Nazwisko NVARCHAR(50) NOT NULL,
+[Data urodzenia] DATE
 );
 
 
@@ -46,10 +48,8 @@ Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 CREATE TABLE [Klienci Kategorie] (
 [ID Kategorii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
-[Czy Wymagagane Konto] INT,
 [Minimalne Miesieczne Zakupy] MONEY,
 [Maksymalne Miesieczne Zakupy] MONEY,
-Opis NVARCHAR(50),
 [ID Rabatu] INT,
   
 FOREIGN KEY ([ID Rabatu]) REFERENCES Rabaty([ID Rabatu])
@@ -59,8 +59,11 @@ FOREIGN KEY ([ID Rabatu]) REFERENCES Rabaty([ID Rabatu])
 CREATE TABLE Serie (
 [ID Serii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(300) UNIQUE NOT NULL,
+[ID Autora] INT NOT NULL,
 [Ilosc Czesci Planowana] INT,
-[Ilosc Czesci Wydanych] INT NOT NULL
+[Ilosc Czesci Wydanych] INT NOT NULL,
+
+FOREIGN KEY ([ID Autora]) REFERENCES Autorzy([ID Autora])
 );
 
 
@@ -213,6 +216,7 @@ FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu])
 
 CREATE TABLE Produkty (
 [ID produktu] INT IDENTITY (1,1) PRIMARY KEY,
+ISBN13 INT UNIQUE NOT NULL,
 [ID kategorii] INT NOT NULL,
 Tytul NVARCHAR(50) NOT NULL,
 [ID autora] INT NOT NULL,
@@ -221,15 +225,14 @@ Tytul NVARCHAR(50) NOT NULL,
 Jezyk NVARCHAR(50) NOT NULL,
 [Jezyk oryginalu] NVARCHAR(50), 
 [ID wydawcy] INT NOT NULL,
-ISBN13 INT NOT NULL,
 [Data wydania] DATE,
 [Oprawa] NVARCHAR(50),
 Wymiary NVARCHAR(50),
 [Liczba stron] INT,
 [Ilosc w magazynie] INT NOT NULL,
 [Ilosc w salonie] INT NOT NULL,
-[Cena hurtowa] MONEY NOT NULL,
-[Cena detaliczna] MONEY NOT NULL,
+Cena MONEY NOT NULL,
+Opis NVARCHAR(1000),
 
 FOREIGN KEY ([ID kategorii]) REFERENCES [Kategorie ksiazek]([ID kategorii]),
 FOREIGN KEY ([ID autora]) REFERENCES Autorzy([ID autora]),
