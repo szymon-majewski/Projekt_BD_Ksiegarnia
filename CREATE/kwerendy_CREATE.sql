@@ -34,7 +34,7 @@ CREATE TABLE [Urlopy Kategorie] (
 [ID Kategorii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 [Dopuszczalna Ilosc Dni] INT NOT NULL,
-Opis NVARCHAR(50)
+Opis NVARCHAR(150)
 );
 
 
@@ -104,6 +104,7 @@ ADD CONSTRAINT CK2_Klienci CHECK ( [Haslo do konta] >= 8 )
 
 
 CREATE TABLE [Opcje Wysylki] (
+[ID Opcji] INT IDENTITY(1, 1), --dodalam aby stworzyc tu jakis sens, dodac do zmowien
 [ID Firmy] INT NOT NULL,
 Typ NVARCHAR(50) NOT NULL,
 Cena MONEY NOT NULL,
@@ -124,8 +125,7 @@ CREATE TABLE Stanowiska (
 [ID stanowiska] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) NOT NULL UNIQUE,
 Obowiazki NVARCHAR(200),
-Kwalifikacje NVARCHAR(200),
-[Pensja podstawowa] MONEY NOT NULL,
+Kwalifikacje NVARCHAR(200)
 )
 
 
@@ -216,7 +216,7 @@ FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu])
 
 CREATE TABLE Produkty (
 [ID produktu] INT IDENTITY (1,1) PRIMARY KEY,
-ISBN13 INT UNIQUE NOT NULL,
+ISBN13 BIGINT UNIQUE NOT NULL,
 [ID kategorii] INT NOT NULL,
 Tytul NVARCHAR(50) NOT NULL,
 [ID autora] INT NOT NULL,
@@ -265,7 +265,9 @@ PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data Rozpoczecia])
 );
 
 
-CREATE TABLE [Zapotrzebowanie Na Pracownikow] (
+CREATE TABLE [Zapotrzebowanie Na Pracownikow] ( 
+--powinno być zapotrzebowanie na pracowników na danej zmianie inaczej nie ma sensu,
+--ale idk jak to ogranąc z pk wtedy
 [ID Stanowiska] INT PRIMARY KEY,
 [Ilosc Potrzebnych Pracownikow] INT NOT NULL,
   
