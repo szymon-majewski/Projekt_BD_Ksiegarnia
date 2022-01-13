@@ -14,9 +14,6 @@ IF OBJECT_ID('Urlopy kategorie') IS NOT NULL
 IF OBJECT_ID('Historia pensji') IS NOT NULL 
 	DROP TABLE [Historia pensji];
 
-IF OBJECT_ID('Skargi pracownicze') IS NOT NULL 
-	DROP TABLE [Skargi pracownicze];
-
 IF OBJECT_ID('Grafik zmian') IS NOT NULL 
 	DROP TABLE [Grafik zmian];
 
@@ -37,6 +34,9 @@ IF OBJECT_ID('Szczegoly zamowien') IS NOT NULL
 
 IF OBJECT_ID('Zamowienia') IS NOT NULL 
 	DROP TABLE Zamowienia;
+
+IF OBJECT_ID('Statusy Zamowienia') IS NOT NULL 
+	DROP TABLE [Statusy Zamowienia];
 
 IF OBJECT_ID('Punkty odbioru') IS NOT NULL 
 	DROP TABLE [Punkty odbioru];
@@ -61,9 +61,6 @@ IF OBJECT_ID('Opcje wysylki') IS NOT NULL
 
 IF OBJECT_ID('Firmy wysylkowe') IS NOT NULL 
 	DROP TABLE [Firmy wysylkowe];
-
-IF OBJECT_ID('Dostawcy') IS NOT NULL 
-	DROP TABLE Dostawcy;
 
 IF OBJECT_ID('Klienci') IS NOT NULL 
 	DROP TABLE Klienci;
