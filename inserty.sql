@@ -148,27 +148,32 @@ INSERT INTO Zmiany ([Godzina Rozpoczecia], [Godzina Zakonczenia], Dzien) VALUES
 ('13:00:00','17:30:00', 'nie, swieta'),
 ('17:00:00','24:00:00', 'nie, swieta');
 
-INSERT INTO Zamowienia ([ID klienta], [Data zamownienia], [Data wysylki], [ID adresu], [ID pracownika]) VALUES
-;
-
-INSERT INTO [Szczegoly zamowien] (
-[ID zamowienia], [ID produktu], Cena, Ilosc, Obnizka) VALUES
-;
-
 --wymyslic z sensem
 INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
-('Specjalista Do Spraw Obslugii Klienta', '', 'doswiadczenie w zarządzaniu ludźmi'),
-(),
-(),
-()
+('Specjalista Do Spraw Obslugi Klienta', 'nadwzorowanie pracownikow do spraw obslogi klienta', 'doswiadczenie w zarządzaniu ludźmi'),
+('Pracownik Obslugi Klienta', 'kontakt z klientami, pomoc w rozwiazaniu problemow', NULL);
 
---wymyslic WHATEVER
+--bullshit dane
 INSERT INTO Pracownicy ([ID pracownika], Imie, Nazwisko, [ID przelozonego], [ID stanowiska], Pensja) VALUES
-(1, )
+(1, 'Ann', 'Am', NULL, 1, 70000),
+(2, 'La', 'L', 1, 2, 50000);
 
---wymyslic WHATEVER
+--bullshit dane
+INSERT INTO Zamowienia ([ID klienta], [Data zamownienia], [Data wysylki], [ID adresu], [ID pracownika]) VALUES
+(1, '13-01-2022', '14-01-2022', 6 , 2),
+(3, '04-11-2021', '27-11-2021', 5 , 3),
+(2, '13-11-2022', '14-11-2022', 6 , 2);
+
+--bullshit dane
+INSERT INTO [Szczegoly zamowien] (
+[ID zamowienia], [ID produktu], Cena, Ilosc, Obnizka) VALUES
+(1, 1, 68, 1, 0.15),
+(1, 2, 63, 1, 0.34);
+
+--bullshit dane
 INSERT INTO Urlopy ([ID pracownika], [ID kategorii], [Data od], [Data do]) VALUES
-;
+(1, 2, '10:12:2020', '25:12:2020'),
+(2, 4, '11:02:2020', '14:02:2020');
 
 --wymyslic WHATEVER 
 INSERT INTO [Historia pensji] ([ID pracownika], [Data zatrudnienia], [Data zmiany pensji]) VALUES
