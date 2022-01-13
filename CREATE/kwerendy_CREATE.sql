@@ -231,7 +231,6 @@ Jezyk NVARCHAR(50) NOT NULL,
 Wymiary NVARCHAR(50),
 [Liczba stron] INT,
 [Ilosc w magazynie] INT NOT NULL,
-[Ilosc w salonie] INT NOT NULL,
 Cena SMALLMONEY NOT NULL,
 Opis NVARCHAR(1000),
 
