@@ -266,10 +266,9 @@ PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data Rozpoczecia])
 
 
 CREATE TABLE [Zapotrzebowanie Na Pracownikow] ( 
---powinno być zapotrzebowanie na pracowników na danej zmianie inaczej nie ma sensu,
---ale idk jak to ogranąc z pk wtedy
 [ID Stanowiska] INT PRIMARY KEY,
 [Ilosc Potrzebnych Pracownikow] INT NOT NULL,
+[Ilosc Zatrudnionych Pracownikow] INT NOT NULL,
   
 FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]),
 );
