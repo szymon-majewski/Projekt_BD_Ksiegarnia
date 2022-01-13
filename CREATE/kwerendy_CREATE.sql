@@ -156,7 +156,7 @@ CREATE TABLE [Historia pensji] (
 [Data zatrudnienia] DATE NOT NULL,
 [Data zmiany pensji] DATE NOT NULL,
 [Wczesniejsza pensja] SMALLMONEY NOT NULL,
-[Obecna pensja] MONEY NOT NULL,
+[Obecna pensja] SMALLMONEY NOT NULL,
 
 PRIMARY KEY ([ID pracownika], [Data zatrudnienia]),
 FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
