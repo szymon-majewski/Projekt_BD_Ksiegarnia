@@ -108,15 +108,15 @@ serdecznego, nieco naiwnego chlopaka o lagodnym spojrzeniu i dobrym sercu. Berna
 INSERT INTO [Firmy Wysylkowe] ([Nazwa Firmy], [ID Adresu], Telefon, [E-mail], [Imie przedstawiciela], [Nazwisko przedstawiciela], [Telefon przedstawiciela], [E-mail przedstawiciela]) VALUES
 ('Paczuchy', 1, 123456789, 'paczuch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' ),
 ('xx', 2, 123456789, 'paczxch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' ),
-('Paczuchyx', 3, 123456789, 'paczuch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' );
+('Paczuchyx', 3, 123456789, 'paczuwqch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' );
 
 --bullshit dane
 INSERT INTO [Punkty Odbioru] (Nazwa, [ID Adresu], [Czynny od], [Czynny do], [ID Firmy]) VALUES
 ('A', 1, '08:00:00', '17:00:00', 1),
 ('AA', 2, '10:00:00', '20:00:00', 1),
 ('AAA', 3, '10:00:00', '20:00:00', 1),
-('AA', 2, '10:00:00', '20:00:00', 2),
-('AAA', 3, '10:00:00', '20:00:00', 3);
+('AB', 2, '10:00:00', '20:00:00', 2),
+('AAB', 3, '10:00:00', '20:00:00', 3);
 
 --bullshit dane
 INSERT INTO [Opcje Wysylki] ([ID Firmy], Typ, Cena) VALUES
@@ -127,25 +127,27 @@ INSERT INTO [Opcje Wysylki] ([ID Firmy], Typ, Cena) VALUES
 
 --bullshit dane
 INSERT INTO Klienci ([ID Kategorii], Imie, Nazwisko, [Nazwa Konta], [Haslo Do Konta], [ID Adresu], Telefon, [E-mail]) VALUES
-(1, 'A', 'B', NULL, NULL, 1, 123123123, 'sada@ssa.pl'),
-(2, 'Adx', 'Bxdfr', 'ad', 'sef', 2, 123123123, 'sada@ssa.pl'),
-(3, 'Ae', 'Brh', 'fsd', 'dg', 3, 123123123, 'sada@ssa.pl'),
-(4, 'Arhj', 'Brth', 'tfhj', 'hfghv', 3, 123123123, 'sada@ssa.pl'),
-(5, 'Aft', 'Brty', 'tddgf', 'dhfchgb', 2, 123123123, 'sada@ssa.pl');
+(1, 'A', 'B', 'wa', 'weodhdowdih', 1, 123123123, 'sada@ssa.pl'),
+(2, 'Adx', 'Bxdfr', 'ad', 'sefzaqqa', 2, 123123123, 'sada@ssa.pl'),
+(3, 'Ae', 'Brh', 'fsd', 'dgzaq2nj', 3, 123123123, 'sada@ssa.pl'),
+(4, 'Arhj', 'Brth', 'tfhj', 'hfash&7ghv', 3, 123123123, 'sada@ssa.pl'),
+(5, 'Aft', 'Brty', 'tddgf', 'dhfcjk^hgb', 2, 123123123, 'sada@ssa.pl');
+
+--DECLARE @MyTime time(0) 
 
 INSERT INTO Zmiany ([Godzina Rozpoczecia], [Godzina Zakonczenia], Dzien) VALUES
-('00:00:00','07:30:00', 'pn - czw'),
-('07:00:00','13:30:00', 'pn - czw'),
-('13:00:00','17:30:00', 'pn - czw'),
-('17:00:00','24:00:00', 'pn - czw'),
-('00:00:00','07:30:00', 'pt, sb'),
-('07:00:00','13:30:00', 'pt, sb'),
-('13:00:00','17:30:00', 'pt, sb'),
-('17:00:00','24:00:00', 'pt, sb'),
-('00:00:00','07:30:00', 'nie, swieta'),
-('07:00:00','13:30:00', 'nie, swieta'),
-('13:00:00','17:30:00', 'nie, swieta'),
-('17:00:00','24:00:00', 'nie, swieta');
+('12:00AM','07:30AM', 'pn - czw'),
+('07:00AM','01:30PM', 'pn - czw'),
+('01:00PM','05:30PM', 'pn - czw'),
+('05:00PM','12:00AM', 'pn - czw'),
+('12:00AM','07:30AM', 'pt, sb'),
+('07:00AM','01:30PM', 'pt, sb'),
+('01:00PM','05:30PM', 'pt, sb'),
+('05:00PM','12:00AM', 'pt, sb'),
+('12:00AM','07:30AM', 'nie, swieta'),
+('07:00AM','01:30PM', 'nie, swieta'),
+('01:00PM','05:30PM', 'nie, swieta'),
+('05:00PM','12:00AM', 'nie, swieta');
 
 --wymyslic z sensem
 INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
@@ -162,9 +164,9 @@ INSERT INTO Pracownicy ([ID pracownika], Imie, Nazwisko, [ID przelozonego], [ID 
 
 --bullshit dane
 INSERT INTO Zamowienia ([ID klienta], [Data zamownienia], [Data wysylki], [ID adresu], [ID pracownika]) VALUES
-(1, '13-01-2022', '14-01-2022', 6 , 2),
-(3, '04-11-2021', '27-11-2021', 5 , 3),
-(2, '13-11-2022', '14-11-2022', 6 , 2);
+(1, '2022-01-12', '2022-01-14', 6 , 2),
+(3, '2022-01-10', '2022-01-12', 5 , 3),
+(2, '2022-01-16', NULL, 6 , 2);
 
 --bullshit dane
 INSERT INTO [Szczegoly zamowien] (
@@ -173,48 +175,36 @@ INSERT INTO [Szczegoly zamowien] (
 (1, 2, 63, 1, 0.34);
 
 INSERT INTO Urlopy ([ID pracownika], [ID kategorii], [Data od], [Data do]) VALUES
-(1, 2, '10:12:2020', '25:12:2020'),
-(2, 4, '11:02:2020', '14:02:2020');
+(1, 2, '2022-01-01', '2022-01-18'),
+(2, 4, '2022-01-12', '2022-01-15');
 
 INSERT INTO [Historia pensji] ([ID pracownika], [Data zmiany pensji], [Wczesniejsza pensja], [Obecna pensja]) VALUES
-(1, '13-05-2021', 0, 50000),
-(1, '13-09-2021', 50000, 60000),
-(1, '13-01-2022', 60000, 90000);
+(1, '2021-05-13', 0, 50000),
+(1, '2021-09-13', 50000, 60000),
+(1, '2022-01-13', 60000, 90000);
+
 
 INSERT INTO[Historia zatrudnien] ([ID pracownika], [Data zatrudnienia], Stanowisko, [Data zwolnienia]) VALUES
-(1, '13-05-2021', 2, '13-01-2022'),
-(1, '13-01-2022', 1, NULL);
+(1, '2021-05-13', 2, '2022-01-13'),
+(1, '2022-01-13', 1, NULL);
 
 --wymyslic WHATEVER 
 INSERT INTO [Grafik Zmian] ([ID Zmiany], [ID Pracownika],[Data Rozpoczecia]) VALUES
-(1, 1, '03-01-2022'),
-(1, 5, '03-01-2022'),
-(2, 2, '03-01-2022'),
-(3, 3, '03-01-2022'),
-(4, 4, '03-01-2022'),
-(1, 1, '04-01-2022'),
-(1, 5, '04-01-2022'),
-(2, 2, '04-01-2022'),
-(3, 3, '04-01-2022'),
-(4, 4, '04-01-2022');
+(1, 1, '2022-01-13'),
+(1, 5, '2022-01-13'),
+(2, 2, '2022-01-13'),
+(3, 3, '2022-01-13'),
+(4, 4, '2022-01-13'),
+(1, 1, '2022-01-14'),
+(1, 5, '2022-01-14'),
+(2, 2, '2022-01-14'),
+(3, 3, '2022-01-14'),
+(4, 4, '2022-01-14');
 
 --dane wyciagane bezposrednio z tabeli pracownicy pomijajc ilosc potrzenych pracownkow 
 INSERT INTO [Zapotrzebowanie Na Pracownikow] ([ID Stanowiska], [Ilosc Potrzebnych Pracownikow], [Ilosc Zatrudnionych Pracownikow]) VALUES
 (2, 10, 4),
 (1, 1, 1);
 
---wymyslic WHATEVER 
-INSERT INTO [Skargi Pracownicze] ([ID Skladajacego], [ID Oskarzonego], Data, Tresc, [Komentarz Przelozonego])VALUES
-;
+--INSERT INTO [Opinie Klientow] ([ID Pracownika], [ID Klienta], Data, Tresc, Ocena) VALUES
 
---wymyslic WHATEVER 
-INSERT INTO [Opinie Klientow] ([ID Pracownika], [ID Klienta], Data, Tresc, Ocena) VALUES
-;
-
-
-
---jaki to ma sesns wgl??
---chyba zeby zmienic jakas granice w ktorym momencie zamamawiamy ksiazki (ale mozna to robic od wydawcow bedzie prosciej),
---trzeba tylko dopisac na jakim poziomie zamawiamy od nowa
-INSERT INTO Dostawcy (Nazwa, [ID adresu], Telefon, [E-mail], [Imie przedstawiciela], [Nazwisko przedstawiciela], [Telefon przedstawiciela], [E-mail przedstawiciela]) VALUES
-;
