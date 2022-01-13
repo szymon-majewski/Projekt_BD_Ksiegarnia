@@ -7,6 +7,8 @@ Ulica NVARCHAR(50) NOT NULL,
 [Kod pocztowy] NVARCHAR(10) NOT NULL
 ); -- mam tu lekkie watpliwosci, co do wrzucania tak bulkowo wszytskich adresow (klientow, wydawcow, punktow odbioru)
 -- jednak moze byc wielu przedstawicili tabelka prezdstawicile by sie przydala, (wtedy do kazdego wyslanego zmowienia dodamy przedstawiciela odpowiedzilanego za paczke aby ja zwrocic w przypadku anulowania zaowienia)
+
+--Stworzenie tabeli Firmy Wysylkowe
 CREATE TABLE [Firmy Wysylkowe] (
 [ID Firmy] INT IDENTITY(1, 1) PRIMARY KEY,
 [Nazwa Firmy] NVARCHAR(100) UNIQUE NOT NULL,
@@ -21,25 +23,29 @@ Telefon INT,
 FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 );
 
-
+--Stworzenie tabeli Autorzy
 CREATE TABLE Autorzy (
 [ID Autora] INT IDENTITY(1, 1) PRIMARY KEY,
 Imie NVARCHAR(50) NOT NULL,
 Nazwisko NVARCHAR(50) NOT NULL,
-[Data urodzenia] DATE
+[Data urodzenia] DATE,
+  
+UNIQUE([ID Autora], Imie, Nazwisko)
 );
 
 --potrzebujemy jeszce czegos co bedzie okreslac hierarchie statusów zamówień (ze np. po anulowania zamownienia nastepuje zwrot pieniedzy itd.)
 --ostatecznie moze to byc tabelka dodatkowa ale to dosc slabe (chcodzi tutaj o wzorzec triggerow jakby, w momencie w ktory zamowinie zostaje anulowe, sprawdzamy czy zostalo oplacone,
 -- jesli tak zwracamy pieniadze, czy zostalo nadane wyslane itp. pracownik kontaktuje sie z forma wylkowa - pracownik powinien dosatc alert, o jakby zrobic tabele 'wiadomosci systemowych',
 -- ktora wysyla konkretne uwagi komendy itp do pracownikow, byloby tu fajnie widoczne dzialnie bazy. !! bardzo mocno proponuje to zrobic
+
+--Stworzenie tabeli Statusy Zamowienia
 CREATE TABLE [Statusy zamowienia](
 [ID Statusu] INT IDENTITY(1, 1) PRIMARY KEY,
 [Nazwa statusu] NVARCHAR(50) UNIQUE NOT NULL,
 [Opis statusu] NVARCHAR(200) NOT NULL
 );
 
-
+--Stworzenie tabeli Urlopy Kategorie
 CREATE TABLE [Urlopy Kategorie] (
 [ID Kategorii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
@@ -49,11 +55,15 @@ Opis NVARCHAR(150)
 
 -- proponuje polaczenie rabatow z klienci kategorie (kazdej kategorii i tak przysluguje jedne rabat, tak wlasciwnie bullshito tabelka, chyba, zeby udalo sie nam zaklepac ze na wszytkie zamownia np. w okresie 
 -- swiatecznym jest rabat swiateczny itp. + moznaby porobic jakie sindywidualne rabty z okazji urodzin klientow zarejestrowanych - wtedy pytamy ich o date urodzenia, rabat automatucznie wskauje w tygodiu urodzin czy cos)
+
+--Stworzenie tabeli Rabaty
 CREATE TABLE Rabaty (
 [ID Rabatu] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 [Wysokosc Rabatu] FLOAT NOT NULL
 );
+
+--Stworzenie tabeli Klienci Kategorie
 CREATE TABLE [Klienci Kategorie] (
 [ID Kategorii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
@@ -65,8 +75,10 @@ FOREIGN KEY ([ID Rabatu]) REFERENCES Rabaty([ID Rabatu])
 );
 
 
--- update gdy nowa ksiazka w serii wychodzi do liczby liczby ksiazek wydanych
--- update tez do liczby ksiazek planowanych
+-- update gdy nowa ksiazka w serii wychodzi do liczby liczby ksiazek wydanych -> trigger
+-- update tez do liczby ksiazek planowanych 
+
+--Stworzenie tabeli Serie
 CREATE TABLE Serie (
 [ID Serii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(300) UNIQUE NOT NULL,
@@ -77,7 +89,7 @@ Nazwa NVARCHAR(300) UNIQUE NOT NULL,
 FOREIGN KEY ([ID Autora]) REFERENCES Autorzy([ID Autora])
 );
 
-
+--Stworzenie tabeli Punkty Odbioru
 CREATE TABLE [Punkty Odbioru] (
 [ID Punktu] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
@@ -92,6 +104,8 @@ FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 
 --nie wiem do konca w jaki sposob mozemy rozwiazac sprawe klientow anonimowych, chyba ze sa anonimowi tylko z nazwy i z tego ze nie zakldaja konta, dalej 
 -- potrzebne ich imie nazwisko telefon mail
+
+--Stworzenie tabeli Klienci
 CREATE TABLE Klienci (
 [ID Klienta] INT IDENTITY(1, 1) PRIMARY KEY,
 [ID Kategorii] INT NOT NULL,
@@ -114,7 +128,7 @@ CHECK ( ([E-mail] IS NOT NULL AND [Nazwa konta] IS NOT NULL AND [Haslo Do Konta]
 ALTER TABLE Klienci               --haslo co najmniej 8 znakow
 ADD CONSTRAINT CK2_Klienci CHECK ( LEN([Haslo do konta]) >= 8 ) --wywala prownanie do inta
 
-
+--Stworzenie tabeli Opcje Wysylki
 CREATE TABLE [Opcje Wysylki] (
 [ID Opcji] INT IDENTITY(1, 1), --dodalam aby stworzyc tu jakis sens, dodac do zmowien
 [ID Firmy] INT NOT NULL,
@@ -126,6 +140,8 @@ PRIMARY KEY([ID Firmy], Typ)
 );
 
 -- automatyczne ukladanie harmonogramu jakos?
+
+--Stworzenie tabeli Zmiany
 CREATE TABLE Zmiany (
 [ID Zmiany] INT IDENTITY(1, 1) PRIMARY KEY,
 [Godzina Rozpoczecia] TIME NOT NULL,
@@ -133,7 +149,7 @@ CREATE TABLE Zmiany (
 Dzien NVARCHAR(20) NOT NULL
 );
 
-
+--Stworzenie tabeli Stanowiska
 CREATE TABLE Stanowiska (
 [ID stanowiska] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) NOT NULL UNIQUE,
@@ -144,6 +160,8 @@ Kwalifikacje NVARCHAR(200)
 -- tutaj dziedziczenie jakos??
 -- chciaz ono pownno isc od stanowiska a nie konretnych pracownikow
 -- trzeba wymyslic jak rozwiazac problem przelozonych 
+
+--Stworzenie tabeli Pracownicy
 CREATE TABLE Pracownicy (
 [ID pracownika] INT PRIMARY KEY,
 Imie NVARCHAR(50) NOT NULL,
@@ -156,6 +174,8 @@ FOREIGN KEY ([ID stanowiska]) REFERENCES Stanowiska([ID Stanowiska])
 );
 
 -- potrzebne ograniczenie pracownik na urlopie, nie moze miec zmiany, nie moze byc pracownikiem przypisanym do zamowienia, nalezy kontrolowac dopuszczalna ilosc dni konkretnego urlopu
+
+--Stworzenie tabeli Urlopy
 CREATE TABLE Urlopy (
 [ID pracownika] INT,
 [ID kategorii] INT,
@@ -168,7 +188,9 @@ FOREIGN KEY ([ID kategorii]) REFERENCES [Urlopy Kategorie]([ID Kategorii])
 );
 
 -- troszke redundancji tu jest chyba, jak wczesniejsza pensja rowna sie poprzedniej obecnej pensji idk?
-CREATE TABLE [Historia pensji] (
+
+--Stworzenie tabeli Historia Pensji
+CREATE TABLE [Historia Pensji] (
 [ID pracownika] INT,
 [Data zmiany pensji] DATE,
 [Wczesniejsza pensja] MONEY NOT NULL,
@@ -179,7 +201,9 @@ FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 );
 
 -- historia zatrudnien na danym stanowisku
-CREATE TABLE [Historia zatrudnien] (
+
+--Stworzenie tabeli Historia Zatrudnien
+CREATE TABLE [Historia Zatrudnien] (
 [ID pracownika] INT,
 [Data zatrudnienia] DATE NOT NULL,
 Stanowisko INT NOT NULL, 
@@ -193,6 +217,8 @@ FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 -- powinna automatycznie updatowac date na obecna date
 -- nr konta musimy dodac (niestety nie moze byc do w danych klienta - chyba ze bedziemy go updatowac jakos) bo potrzebne nam konto na ktore ew zwracamy pieniadze w przypadku anulowania zamowienia
 -- przenioslabym tutaj obnizke na zamownie i dodala cena zaplacona za zamowinie 
+
+--Stworzenie tabeli Zamowienia
 CREATE TABLE Zamowienia (
 [ID zamowienia] INT IDENTITY(1,1) PRIMARY KEY,
 [ID klienta] INT NOT NULL,
@@ -210,11 +236,13 @@ FOREIGN KEY ([ID klienta]) REFERENCES Klienci([ID klienta]),
 FOREIGN KEY ([ID punktu odbioru]) REFERENCES [Punkty odbioru]([ID punktu]),
 );
 
+--Stworzenie tabeli Kategorie Ksiazek
 CREATE TABLE [Kategorie ksiazek] (
 [ID kategorii] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 );
 
+--Stworzenie tabeli Wydawcy
 CREATE TABLE Wydawcy (
 [ID wydawcy] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
@@ -223,6 +251,7 @@ Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu])
 );
 
+--Stworzenie tabeli Produkty
 CREATE TABLE Produkty (
 [ID produktu] INT IDENTITY (1,1) PRIMARY KEY,
 ISBN13 BIGINT UNIQUE NOT NULL,
@@ -248,7 +277,8 @@ FOREIGN KEY ([ID serii]) REFERENCES Serie([ID serii]),
 FOREIGN KEY ([ID wydawcy]) REFERENCES Wydawcy([ID wydawcy])
 );
 
-CREATE TABLE [Szczegoly zamowien] (
+--Stworzenie tabeli Szczegoly Zamowien
+CREATE TABLE [Szczegoly Zamowien] (
 [ID zamowienia] INT,
 [ID produktu] INT,
 Cena SMALLMONEY NOT NULL,
@@ -261,6 +291,8 @@ FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu])
 );
 
 -- historyczny i obecny, na kazdy tydzien powinien sam moze powstawac (tylko nie mamy do tego nigdzie zapotrzebowania na pracownikow na danej zmianie)
+
+--Stworzenie tabeli Grafik Zmian
 CREATE TABLE [Grafik Zmian] (
 [ID Zmiany] INT,
 [ID Pracownika] INT,
@@ -272,6 +304,8 @@ PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data Rozpoczecia])
 );
 
 -- automatyczne info do szefa ds zatrudnienia ze trzeb kogos zatrudnic
+
+--Stworzenie tabeli Zapotrzebowanie Na Pracownikow
 CREATE TABLE [Zapotrzebowanie Na Pracownikow] ( 
 [ID Stanowiska] INT PRIMARY KEY,
 [Ilosc Potrzebnych Pracownikow] INT NOT NULL,
@@ -283,6 +317,7 @@ FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]),
 
 -- wsm nie jestem pewna czy to wywalac zostawiam obecnie, może jednak się przyda 
 /*
+--Stworzenie tabeli Opinie Klientow
 CREATE TABLE [Opinie Klientow] (
 [ID Pracownika] INT,
 [ID Klienta] INT,
