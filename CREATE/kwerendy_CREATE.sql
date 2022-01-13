@@ -48,8 +48,8 @@ Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 CREATE TABLE [Klienci Kategorie] (
 [ID Kategorii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
-[Minimalne Miesieczne Zakupy] MONEY,
-[Maksymalne Miesieczne Zakupy] MONEY,
+[Minimalne Miesieczne Zakupy] SMALLMONEY,
+[Maksymalne Miesieczne Zakupy] SMALLMONEY,
 [ID Rabatu] INT,
   
 FOREIGN KEY ([ID Rabatu]) REFERENCES Rabaty([ID Rabatu])
@@ -155,7 +155,7 @@ CREATE TABLE [Historia pensji] (
 [ID pracownika] INT,
 [Data zatrudnienia] DATE NOT NULL,
 [Data zmiany pensji] DATE NOT NULL,
-[Wczesniejsza pensja] MONEY NOT NULL,
+[Wczesniejsza pensja] SMALLMONEY NOT NULL,
 [Obecna pensja] MONEY NOT NULL,
 
 PRIMARY KEY ([ID pracownika], [Data zatrudnienia]),
@@ -233,7 +233,7 @@ Wymiary NVARCHAR(50),
 [Liczba stron] INT,
 [Ilosc w magazynie] INT NOT NULL,
 [Ilosc w salonie] INT NOT NULL,
-Cena MONEY NOT NULL,
+Cena SMALLMONEY NOT NULL,
 Opis NVARCHAR(1000),
 
 FOREIGN KEY ([ID kategorii]) REFERENCES [Kategorie ksiazek]([ID kategorii]),
@@ -245,7 +245,7 @@ FOREIGN KEY ([ID wydawcy]) REFERENCES Wydawcy([ID wydawcy])
 CREATE TABLE [Szczegoly zamowien] (
 [ID zamowienia] INT,
 [ID produktu] INT,
-Cena MONEY NOT NULL,
+Cena SMALLMONEY NOT NULL,
 Ilosc INT NOT NULL,
 Obnizka REAL NOT NULL,	
 
