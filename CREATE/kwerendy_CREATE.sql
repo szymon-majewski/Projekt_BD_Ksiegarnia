@@ -257,8 +257,7 @@ FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu])
 CREATE TABLE [Grafik Zmian] (
 [ID Zmiany] INT,
 [ID Pracownika] INT,
-[Data Rozpoczecia] DATETIME,
-[Data Zakonczenia] DATETIME NOT NULL,
+[Data Rozpoczecia] DATE NOT NULL,
   
 FOREIGN KEY ([ID Pracownika]) REFERENCES Pracownicy([ID Pracownika]),
 FOREIGN KEY ([ID Zmiany]) REFERENCES Zmiany([ID Zmiany]),
