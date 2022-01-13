@@ -153,7 +153,6 @@ FOREIGN KEY ([ID kategorii]) REFERENCES [Urlopy Kategorie]([ID Kategorii])
 
 CREATE TABLE [Historia pensji] (
 [ID pracownika] INT,
-[Data zatrudnienia] DATE NOT NULL,
 [Data zmiany pensji] DATE NOT NULL,
 [Wczesniejsza pensja] SMALLMONEY NOT NULL,
 [Obecna pensja] SMALLMONEY NOT NULL,
