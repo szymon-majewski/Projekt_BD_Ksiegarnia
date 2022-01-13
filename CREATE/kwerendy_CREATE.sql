@@ -6,7 +6,7 @@ Ulica NVARCHAR(50) NOT NULL,
 [Nr lokalu] INT,
 [Kod pocztowy] NVARCHAR(10) NOT NULL
 ); -- mam tu lekkie watpliwosci, co do wrzucania tak bulkowo wszytskich adresow (klientow, wydawcow, punktow odbioru)
---jednak moze byc wielu przedstawicili tabelka prezdstawicile by sie przydala, (wtedy do kazdego wyslanego zmowienia dodamy przedstawiciela odpowiedzilanego za paczke aby ja zwrocic w przypadku anulowania zaowienia)
+-- jednak moze byc wielu przedstawicili tabelka prezdstawicile by sie przydala, (wtedy do kazdego wyslanego zmowienia dodamy przedstawiciela odpowiedzilanego za paczke aby ja zwrocic w przypadku anulowania zaowienia)
 CREATE TABLE [Firmy Wysylkowe] (
 [ID Firmy] INT IDENTITY(1, 1) PRIMARY KEY,
 [Nazwa Firmy] NVARCHAR(100) UNIQUE NOT NULL,
@@ -31,8 +31,8 @@ Nazwisko NVARCHAR(50) NOT NULL,
 
 --potrzebujemy jeszce czegos co bedzie okreslac hierarchie statusów zamówień (ze np. po anulowania zamownienia nastepuje zwrot pieniedzy itd.)
 --ostatecznie moze to byc tabelka dodatkowa ale to dosc slabe (chcodzi tutaj o wzorzec triggerow jakby, w momencie w ktory zamowinie zostaje anulowe, sprawdzamy czy zostalo oplacone,
-jesli tak zwracamy pieniadze, czy zostalo nadane wyslane itp. pracownik kontaktuje sie z forma wylkowa - pracownik powinien dosatc alert, o jakby zrobic tabele 'wiadomosci systemowych',
-ktora wysyla konkretne uwagi komendy itp do pracownikow, byloby tu fajnie widoczne dzialnie bazy. !! bardzo mocno proponuje to zrobic
+-- jesli tak zwracamy pieniadze, czy zostalo nadane wyslane itp. pracownik kontaktuje sie z forma wylkowa - pracownik powinien dosatc alert, o jakby zrobic tabele 'wiadomosci systemowych',
+-- ktora wysyla konkretne uwagi komendy itp do pracownikow, byloby tu fajnie widoczne dzialnie bazy. !! bardzo mocno proponuje to zrobic
 CREATE TABLE [Statusy zamowienia](
 [ID Statusu] INT IDENTITY(1, 1) PRIMARY KEY,
 [Nazwa statusu] NVARCHAR(50) UNIQUE NOT NULL,
@@ -48,7 +48,7 @@ Opis NVARCHAR(150)
 );
 
 -- proponuje polaczenie rabatow z klienci kategorie (kazdej kategorii i tak przysluguje jedne rabat, tak wlasciwnie bullshito tabelka, chyba, zeby udalo sie nam zaklepac ze na wszytkie zamownia np. w okresie 
-swiatecznym jest rabat swiateczny itp. + moznaby porobic jakie sindywidualne rabty z okazji urodzin klientow zarejestrowanych - wtedy pytamy ich o date urodzenia, rabat automatucznie wskauje w tygodiu urodzin czy cos)
+-- swiatecznym jest rabat swiateczny itp. + moznaby porobic jakie sindywidualne rabty z okazji urodzin klientow zarejestrowanych - wtedy pytamy ich o date urodzenia, rabat automatucznie wskauje w tygodiu urodzin czy cos)
 CREATE TABLE Rabaty (
 [ID Rabatu] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
@@ -65,8 +65,8 @@ FOREIGN KEY ([ID Rabatu]) REFERENCES Rabaty([ID Rabatu])
 );
 
 
---update gdy nowa ksiazka w serii wychodzi do liczby liczby ksiazek wydanych
---uodate tez do liczby ksiazek planowanych
+-- update gdy nowa ksiazka w serii wychodzi do liczby liczby ksiazek wydanych
+-- update tez do liczby ksiazek planowanych
 CREATE TABLE Serie (
 [ID Serii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(300) UNIQUE NOT NULL,
@@ -91,7 +91,7 @@ FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 );
 
 --nie wiem do konca w jaki sposob mozemy rozwiazac sprawe klientow anonimowych, chyba ze sa anonimowi tylko z nazwy i z tego ze nie zakldaja konta, dalej 
-potrzebne ich imie nazwisko telefon mail
+-- potrzebne ich imie nazwisko telefon mail
 CREATE TABLE Klienci (
 [ID Klienta] INT IDENTITY(1, 1) PRIMARY KEY,
 [ID Kategorii] INT NOT NULL,
@@ -125,7 +125,7 @@ FOREIGN KEY ([ID Firmy]) REFERENCES [Firmy Wysylkowe]([ID Firmy]),
 PRIMARY KEY([ID Firmy], Typ)
 );
 
---automatyczne ukladanie harmonogramu jakos?
+-- automatyczne ukladanie harmonogramu jakos?
 CREATE TABLE Zmiany (
 [ID Zmiany] INT IDENTITY(1, 1) PRIMARY KEY,
 [Godzina Rozpoczecia] TIME NOT NULL,
@@ -141,9 +141,9 @@ Obowiazki NVARCHAR(200),
 Kwalifikacje NVARCHAR(200)
 )
 
---tutaj dziedziczenie jakos??
---chciaz ono pownno isc od stanowiska a nie konretnych pracownikow
---trzeba wymyslic jak rozwiazac problem przelozonych 
+-- tutaj dziedziczenie jakos??
+-- chciaz ono pownno isc od stanowiska a nie konretnych pracownikow
+-- trzeba wymyslic jak rozwiazac problem przelozonych 
 CREATE TABLE Pracownicy (
 [ID pracownika] INT PRIMARY KEY,
 Imie NVARCHAR(50) NOT NULL,
@@ -155,7 +155,7 @@ Pensja MONEY NOT NULL
 FOREIGN KEY ([ID stanowiska]) REFERENCES Stanowiska([ID Stanowiska])
 );
 
---potrzebne ograniczenie pracownik na urlopie, nie moze miec zmiany, nie moze byc pracownikiem przypisanym do zamowienia, nalezy kontrolowac dopuszczalna ilosc dni konkretnego urlopu
+-- potrzebne ograniczenie pracownik na urlopie, nie moze miec zmiany, nie moze byc pracownikiem przypisanym do zamowienia, nalezy kontrolowac dopuszczalna ilosc dni konkretnego urlopu
 CREATE TABLE Urlopy (
 [ID pracownika] INT,
 [ID kategorii] INT,
@@ -167,7 +167,7 @@ FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]),
 FOREIGN KEY ([ID kategorii]) REFERENCES [Urlopy Kategorie]([ID Kategorii])
 );
 
---troszke redundancji tu jest chyba, jak wczesniejsza pensja rowna sie poprzedniej obecnej pensji idk?
+-- troszke redundancji tu jest chyba, jak wczesniejsza pensja rowna sie poprzedniej obecnej pensji idk?
 CREATE TABLE [Historia pensji] (
 [ID pracownika] INT,
 [Data zmiany pensji] DATE,
@@ -178,7 +178,7 @@ PRIMARY KEY ([ID pracownika], [Data zmiany pensji]),
 FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 );
 
---historia zatrudnien na danym stanowisku
+-- historia zatrudnien na danym stanowisku
 CREATE TABLE [Historia zatrudnien] (
 [ID pracownika] INT,
 [Data zatrudnienia] DATE NOT NULL,
@@ -189,10 +189,10 @@ PRIMARY KEY ([ID pracownika], [Data zatrudnienia]),
 FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 );
 
---potrzebujemy ograniczenia jakiegos, ze jesli jest data wysylki statusem musi byc wyslane, anulowane itd., a jak null to nie moglo byc wyslane, sama zmiana statusu
---powinna automatycznie updatowac date na obecna date
---nr konta musimy dodac (niestety nie moze byc do w danych klienta - chyba ze bedziemy go updatowac jakos) bo potrzebne nam konto na ktore ew zwracamy pieniadze w przypadku anulowania zamowienia
---przenioslabym tutaj obnizke na zamownie i dodala cena zaplacona za zamowinie 
+-- potrzebujemy ograniczenia jakiegos, ze jesli jest data wysylki statusem musi byc wyslane, anulowane itd., a jak null to nie moglo byc wyslane, sama zmiana statusu
+-- powinna automatycznie updatowac date na obecna date
+-- nr konta musimy dodac (niestety nie moze byc do w danych klienta - chyba ze bedziemy go updatowac jakos) bo potrzebne nam konto na ktore ew zwracamy pieniadze w przypadku anulowania zamowienia
+-- przenioslabym tutaj obnizke na zamownie i dodala cena zaplacona za zamowinie 
 CREATE TABLE Zamowienia (
 [ID zamowienia] INT IDENTITY(1,1) PRIMARY KEY,
 [ID klienta] INT NOT NULL,
@@ -271,7 +271,7 @@ FOREIGN KEY ([ID Zmiany]) REFERENCES Zmiany([ID Zmiany]),
 PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data Rozpoczecia])
 );
 
---automatyczne info do szefa ds zatrudnienia ze trzeb kogos zatrudnic
+-- automatyczne info do szefa ds zatrudnienia ze trzeb kogos zatrudnic
 CREATE TABLE [Zapotrzebowanie Na Pracownikow] ( 
 [ID Stanowiska] INT PRIMARY KEY,
 [Ilosc Potrzebnych Pracownikow] INT NOT NULL,
@@ -281,7 +281,7 @@ FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]),
 );
 
 
---wsm nie jestem pewna czy to wywalac zostawiam obecnie, może jednak się przyda 
+-- wsm nie jestem pewna czy to wywalac zostawiam obecnie, może jednak się przyda 
 /*
 CREATE TABLE [Opinie Klientow] (
 [ID Pracownika] INT,
