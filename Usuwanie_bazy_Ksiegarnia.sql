@@ -4,6 +4,8 @@ DROP CONSTRAINT CK1_Klienci
 ALTER TABLE Klienci 
 DROP CONSTRAINT CK2_Klienci
 
+IF OBJECT_ID('Statusy zamowienia') IS NOT NULL 
+	DROP TABLE [Statusy zamowienia];
 
 IF OBJECT_ID('Urlopy') IS NOT NULL 
 	DROP TABLE Urlopy;
