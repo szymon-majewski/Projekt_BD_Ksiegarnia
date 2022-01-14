@@ -1,3 +1,4 @@
+--ew dorzucic te rabtay swiateczne z ograniczeniami
 INSERT INTO Rabaty (Nazwa, [Wysokosc Rabatu]) VALUES
 ('Uniwersalny', 0.1),
 ('Level1', 0.12),
@@ -6,12 +7,21 @@ INSERT INTO Rabaty (Nazwa, [Wysokosc Rabatu]) VALUES
 ('Level4S', 0.21),
 ('Okolicznosciowy', 0.2);
 
+INSERT INTO [Statusy zamowienia]([Nazwa statusu], [Opis statusu]) VALUES
+('przyjete', 'oczekawinie na platnosc'),
+('oplacone', 'trafilo do realizjcji'),
+('do wyslanie', 'oczekuje na wyslke'),
+('wyslano', 'zostalo wyslane'),
+('anulowane', 'oczekuje na zwrot przesylki/zwrot pieniedzy');
+
+--usunac anonima
 INSERT INTO [Klienci Kategorie] ( Nazwa, [Minimalne Miesieczne Zakupy], [Maksymalne Miesieczne Zakupy], [ID Rabatu]) VALUES
 ('Anonimowy', 0, 1500, 1),
 ('Poczatkujacy', 0, 100, 2),
 ('Zaawansowany', 100, 700, 3),
 ('Ksiazkoholik', 700, 1000, 4),
 ('Psychofan', 1000, 1500, 5);
+
 
 INSERT INTO [Urlopy Kategorie] (Nazwa, [Dopuszczalna Ilosc Dni], Opis) VALUES
 ('Urlop wypoczynkowy',31,'celem urlopu jest wypoczynek pracownika i regeneracja utraconych przez niego sil'),
@@ -149,10 +159,14 @@ INSERT INTO Zmiany ([Godzina Rozpoczecia], [Godzina Zakonczenia], Dzien) VALUES
 ('01:00PM','05:30PM', 'nie, swieta'),
 ('05:00PM','12:00AM', 'nie, swieta');
 
---wymyslic z sensem
+--poprawic z sensem (dopisac brakujace dane)
 INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
 ('Specjalista Do Spraw Obslugi Klienta', 'nadwzorowanie pracownikow do spraw obslogi klienta', 'doswiadczenie w zarządzaniu ludźmi'),
-('Pracownik Obslugi Klienta', 'kontakt z klientami, pomoc w rozwiazaniu problemow', NULL);
+('Pracownik Obslugi Klienta', 'kontakt z klientami, pomoc w rozwiazaniu problemow', NULL),
+('Prezes', 'zarzadznie firma' ,'doswiadczenie w zarzadzaniu'),
+('Ekspert IT', 'zarzadznie baza danych, systemem, bla bla bla...', 'dswiadczenie w ...'),
+('Dyrektor do spraw komunikacji','',''),
+('Asystent ds technicznych', '', '');
 
 --bullshit dane
 INSERT INTO Pracownicy ([ID pracownika], Imie, Nazwisko, [ID przelozonego], [ID stanowiska], Pensja) VALUES
@@ -207,4 +221,3 @@ INSERT INTO [Zapotrzebowanie Na Pracownikow] ([ID Stanowiska], [Ilosc Potrzebnyc
 (1, 1, 1);
 
 --INSERT INTO [Opinie Klientow] ([ID Pracownika], [ID Klienta], Data, Tresc, Ocena) VALUES
-
