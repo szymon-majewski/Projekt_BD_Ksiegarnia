@@ -193,9 +193,9 @@ INSERT INTO Urlopy ([ID pracownika], [ID kategorii], [Data od], [Data do]) VALUE
 (2, 4, '2022-01-12', '2022-01-15');
 
 INSERT INTO [Historia pensji] ([ID pracownika], [Data zmiany pensji], [Wczesniejsza pensja], [Obecna pensja]) VALUES
-(1, '2021-05-13', 0, 50000),
-(1, '2021-09-13', 50000, 60000),
-(1, '2022-01-13', 60000, 90000);
+(1, '2021-05-13',50000),
+(1, '2021-09-13',  60000),
+(1, '2022-01-13',  90000);
 
 
 INSERT INTO[Historia zatrudnien] ([ID pracownika], [Data zatrudnienia], Stanowisko, [Data zwolnienia]) VALUES
