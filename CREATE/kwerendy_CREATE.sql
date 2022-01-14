@@ -175,7 +175,7 @@ FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
 CREATE TABLE Zamowienia ( --on delety
 [ID zamowienia] INT IDENTITY(1,1) PRIMARY KEY,
 [ID klienta] INT NOT NULL,
-[Data i czas zamownienia] DATETIME NOT NULL,
+[Data i czas zamowienia] DATETIME NOT NULL,
 [Status wysylki] INT NOT NULL,
 [Data wysylki] DATE,
 [ID adresu] INT,
