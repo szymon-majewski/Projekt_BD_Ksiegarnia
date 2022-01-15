@@ -1,7 +1,7 @@
 INSERT INTO [Statusy zamowienia]([Nazwa statusu], [Opis statusu]) VALUES
 ('przyjete', 'oczekawinie na platnosc'),
 ('oplacone', 'trafilo do realizjcji'),
-('do wyslanie', 'oczekuje na wyslke'),
+('do wyslania', 'oczekuje na wyslke'),
 ('wyslano', 'zostalo wyslane'),
 
 INSERT INTO [Klienci Kategorie] ( Nazwa, [Minimalne Miesieczne Zakupy], [Maksymalne Miesieczne Zakupy], [ID Rabatu]) VALUES
