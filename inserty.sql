@@ -168,15 +168,23 @@ INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pen
 (13, 1, 2, 50000);
 
 --bullshit dane
-INSERT INTO Zamowienia ([ID klienta], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki]) VALUES
-(4, '2022-01-12', 4, '2022-01-14', 'Kraków', 'Lal', '15', NULL, '11-171', 1 ),
-(5, '2022-01-10', 4, '2022-01-12', 'Kraków', 'Lal', '15', NULL, '11-171', 2),
-(6, '2022-01-16', 1, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 3);
+INSERT INTO Zamowienia ([ID klienta], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odioru]) VALUES
+(4, '2022-01-12', 4, '2022-01-14', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
+(5, '2022-01-10', 4, '2022-01-12', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
+(6, '2022-01-09', 1, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL),
+(4, '2022-01-13', 4, '2022-01-14', NULL, NULL, NULL, NULL, NULL, 1, 1 );
 
 --bullshit dane
 INSERT INTO [Szczegoly zamowien] ([ID zamowienia], [ID produktu], Cena, Ilosc, Obnizka) VALUES
 (1, 1, 68, 1, 0.15),
-(1, 2, 63, 1, 0.34);
+(1, 2, 63, 1, 0.34),
+(2, 1, 68, 2, 0.15),
+(2, 2, 63, 1, 0.34),
+(3, 1, 68, 3, 0.15),
+(3, 2, 63, 7, 0.34),
+(4, 1, 68, 1, 0.15),
+(4, 2, 63, 1, 0.34);
+
 
 INSERT INTO Urlopy ([ID pracownika], [ID kategorii], [Data od], [Data do]) VALUES
 (9, 2, '2022-01-01', '2022-01-18'),
