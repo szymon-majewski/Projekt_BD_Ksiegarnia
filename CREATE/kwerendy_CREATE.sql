@@ -96,9 +96,6 @@ FOREIGN KEY ([ID Kategorii]) REFERENCES [Klienci Kategorie]([ID Kategorii]),
 FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 );
 
-ALTER TABLE Klienci               --haslo co najmniej 8 znakow
-ADD CONSTRAINT CK2_Klienci CHECK ( LEN([Haslo do konta]) >= 8 ) 
-
 --Stworzenie tabeli Opcje Wysylki
 CREATE TABLE [Opcje Wysylki] (
 [ID Opcji] INT IDENTITY(1, 1),
