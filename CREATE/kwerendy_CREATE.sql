@@ -1,35 +1,36 @@
-CREATE TABLE Adresy (
-[ID adresu] INT IDENTITY(1,1) PRIMARY KEY,
-Miasto NVARCHAR(50) NOT NULL,
-Ulica NVARCHAR(50) NOT NULL,
-[Nr budynku] INT NOT NULL,
+--Stworzenie tabeli Osoby
+CREATE TABLE Osoby (
+[ID osoby] INT IDENTITY(1,1) PRIMARY KEY,
+Imie NVARCHAR(50) NOT NULL,
+Nazwisko NVARCHAR(50) NOT NULL,
+Miasto NVARCHAR(50),
+Ulica NVARCHAR(50),
+[Nr budynku] INT,
 [Nr lokalu] INT,
-[Kod pocztowy] NVARCHAR(10) NOT NULL
-); 
+[Kod pocztowy] NVARCHAR(10)
+);
 
 --Stworzenie tabeli Firmy Wysylkowe
 CREATE TABLE [Firmy Wysylkowe] (
 [ID Firmy] INT IDENTITY(1, 1) PRIMARY KEY,
 [Nazwa Firmy] NVARCHAR(100) UNIQUE NOT NULL,
-[ID Adresu] INT, --on delete cascade
+Miasto NVARCHAR(50) NOT NULL,
+Ulica NVARCHAR(50) NOT NULL,
+[Nr budynku] INT NOT NULL,
+[Nr lokalu] INT,
+[Kod pocztowy] NVARCHAR(10) NOT NULL,
 Telefon INT,
 [E-mail] NVARCHAR(255) UNIQUE NOT NULL,
 [Imie przedstawiciela] NVARCHAR(50) NOT NULL,
 [Nazwisko przedstawiciela] NVARCHAR(50) NOT NULL,
 [Telefon przedstawiciela] INT,
 [E-mail przedstawiciela] NVARCHAR(255) NOT NULL,
-  
-FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 );
 
 --Stworzenie tabeli Autorzy
 CREATE TABLE Autorzy (
-[ID Autora] INT IDENTITY(1, 1) PRIMARY KEY,
-Imie NVARCHAR(50) NOT NULL,
-Nazwisko NVARCHAR(50) NOT NULL,
+[ID Autora] INT REFERENCES Osoby([ID Osoby]) ON DELETE CASCADE PRIMARY KEY,
 [Data urodzenia] DATE,
-  
-UNIQUE([ID Autora], Imie, Nazwisko)
 );
 
 --Stworzenie tabeli Statusy Zamowienia
@@ -58,53 +59,50 @@ Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 
 --Stworzenie tabeli Serie
 CREATE TABLE Serie (
-[ID Serii] INT IDENTITY(1, 1) PRIMARY KEY, --on delete
+[ID Serii] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(300) UNIQUE NOT NULL,
 [ID Autora] INT NOT NULL,
 [Ilosc Czesci Planowana] INT,
 [Ilosc Czesci Wydanych] INT NOT NULL,
 
-FOREIGN KEY ([ID Autora]) REFERENCES Autorzy([ID Autora])
+FOREIGN KEY ([ID Autora]) REFERENCES Autorzy([ID Autora]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Punkty Odbioru
 CREATE TABLE [Punkty Odbioru] (
-[ID Punktu] INT IDENTITY(1, 1) PRIMARY KEY, --on delete
+[ID Punktu] INT IDENTITY(1, 1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
-[ID Adresu] INT NOT NULL, -- on delete
+Miasto NVARCHAR(50) NOT NULL,
+Ulica NVARCHAR(50) NOT NULL,
+[Nr budynku] INT NOT NULL,
+[Kod pocztowy] NVARCHAR(10) NOT NULL,
 [Czynny od] TIME NOT NULL,
 [Czynny do] TIME NOT NULL,
 [ID Firmy] INT NOT NULL,
   
-FOREIGN KEY ([ID Firmy]) REFERENCES [Firmy Wysylkowe]([ID Firmy]),
-FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
+FOREIGN KEY ([ID Firmy]) REFERENCES [Firmy Wysylkowe]([ID Firmy]) ON DELETE CASCADE,
 );
 
 --Stworzenie tabeli Klienci
 CREATE TABLE Klienci (
-[ID Klienta] INT IDENTITY(1, 1) PRIMARY KEY,
+[ID Klienta] INT REFERENCES Osoby([ID Osoby]) ON DELETE CASCADE PRIMARY KEY,
 [ID Kategorii] INT NOT NULL,
-Imie NVARCHAR(50) NOT NULL,
-Nazwisko NVARCHAR(50) NOT NULL,
 [Nazwa Konta] NVARCHAR(50) UNIQUE NOT NULL,
 [Haslo Do Konta] NVARCHAR(50) NOT NULL,
-[ID Adresu] INT, --on delete cascade
 Telefon INT NOT NULL,
 [E-mail] NVARCHAR(255),
   
 FOREIGN KEY ([ID Kategorii]) REFERENCES [Klienci Kategorie]([ID Kategorii]),
-FOREIGN KEY ([ID Adresu]) REFERENCES Adresy([ID Adresu])
 );
 
 --Stworzenie tabeli Opcje Wysylki
 CREATE TABLE [Opcje Wysylki] (
-[ID Opcji] INT IDENTITY(1, 1),
-[ID Firmy] INT NOT NULL, --on delete
+[ID Opcji] INT IDENTITY(1, 1) PRIMARY KEY,
+[ID Firmy] INT NOT NULL,
 Typ NVARCHAR(50) NOT NULL,
 Cena SMALLMONEY NOT NULL,
   
-FOREIGN KEY ([ID Firmy]) REFERENCES [Firmy Wysylkowe]([ID Firmy]),
-PRIMARY KEY([ID Firmy], Typ)
+FOREIGN KEY ([ID Firmy]) REFERENCES [Firmy Wysylkowe]([ID Firmy]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Zmiany
@@ -121,91 +119,93 @@ CREATE TABLE Stanowiska (
 Nazwa NVARCHAR(50) NOT NULL UNIQUE,
 Obowiazki NVARCHAR(200),
 Kwalifikacje NVARCHAR(200)
-)
+);
 
 --Stworzenie tabeli Pracownicy
 CREATE TABLE Pracownicy (
-[ID pracownika] INT PRIMARY KEY,
-Imie NVARCHAR(50) NOT NULL,
-Nazwisko NVARCHAR(50) NOT NULL,
+[ID pracownika] INT REFERENCES Osoby([ID Osoby]) ON DELETE CASCADE PRIMARY KEY,
 [ID przelozonego] INT,
-[ID stanowiska] INT NOT NULL, --on delete
+[ID stanowiska] INT NOT NULL,
 Pensja MONEY NOT NULL
 
-FOREIGN KEY ([ID stanowiska]) REFERENCES Stanowiska([ID Stanowiska])
+FOREIGN KEY ([ID stanowiska]) REFERENCES Stanowiska([ID Stanowiska]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Urlopy
 CREATE TABLE Urlopy (
-[ID pracownika] INT, --on delete
-[ID kategorii] INT, --on delete
+[ID pracownika] INT,
+[ID kategorii] INT,
 [Data od] DATE,
 [Data do] DATE NOT NULL,
 
 PRIMARY KEY ([ID pracownika], [Data od]),
-FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]),
-FOREIGN KEY ([ID kategorii]) REFERENCES [Urlopy Kategorie]([ID Kategorii])
+FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]) ON DELETE CASCADE,
+FOREIGN KEY ([ID kategorii]) REFERENCES [Urlopy Kategorie]([ID Kategorii]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Historia Pensji
 CREATE TABLE [Historia Pensji] (
-[ID pracownika] INT, --on derlete
+[ID pracownika] INT,
 [Data zmiany pensji] DATE,
 [Poprzednia pensja] MONEY NOT NULL,
 
 PRIMARY KEY ([ID pracownika], [Data zmiany pensji]),
-FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
+FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Historia Zatrudnien
 CREATE TABLE [Historia Zatrudnien] (
-[ID pracownika] INT, --on delete
+[ID pracownika] INT,
 [Data zatrudnienia na stanowisku] DATE NOT NULL,
 Stanowisko INT NOT NULL, 
 [Data zwolnienia] DATE,
 
-PRIMARY KEY ([ID pracownika], [Data zatrudnienia]),
-FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika])
+PRIMARY KEY ([ID pracownika], [Data zatrudnienia na stanowisku]),
+FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Zamowienia
-CREATE TABLE Zamowienia ( --on delety
+CREATE TABLE Zamowienia (
 [ID zamowienia] INT IDENTITY(1,1) PRIMARY KEY,
 [ID klienta] INT NOT NULL,
 [Data i czas zamowienia] DATETIME NOT NULL,
 [Status wysylki] INT NOT NULL,
 [Data wysylki] DATE,
-[ID adresu] INT,
+Miasto NVARCHAR(50) NOT NULL,
+Ulica NVARCHAR(50) NOT NULL,
+[Nr budynku] INT NOT NULL,
+[Nr lokalu] INT,
+[Kod pocztowy] NVARCHAR(10) NOT NULL,
 [Metoda wysylki] INT,
 [ID punktu odbioru] INT,
 
-FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu]),
 FOREIGN KEY ([Metoda wysylki]) REFERENCES [Opcje wysylki]([ID Opcji]),
-FOREIGN KEY ([Status wysylki]) REFERENCES [Statusy zamowienia]([ID Statusu]),
-FOREIGN KEY ([ID klienta]) REFERENCES Klienci([ID klienta]),
-FOREIGN KEY ([ID punktu odbioru]) REFERENCES [Punkty odbioru]([ID punktu]),
+FOREIGN KEY ([Status wysylki]) REFERENCES [Statusy zamowienia]([ID Statusu]) ON DELETE CASCADE,
+FOREIGN KEY ([ID klienta]) REFERENCES Klienci([ID klienta]) ON DELETE CASCADE,
+FOREIGN KEY ([ID punktu odbioru]) REFERENCES [Punkty odbioru]([ID punktu]) ON DELETE CASCADE,
 );
 
 --Stworzenie tabeli Kategorie Ksiazek
 CREATE TABLE [Kategorie ksiazek] (
-[ID kategorii] INT IDENTITY(1,1) PRIMARY KEY,
-Nazwa NVARCHAR(50) UNIQUE NOT NULL,
+Nazwa NVARCHAR(50) PRIMARY KEY
 );
 
 --Stworzenie tabeli Wydawcy
 CREATE TABLE Wydawcy (
 [ID wydawcy] INT IDENTITY(1,1) PRIMARY KEY,
 Nazwa NVARCHAR(50) UNIQUE NOT NULL,
-[ID adresu] INT,
-
-FOREIGN KEY ([ID adresu]) REFERENCES Adresy([ID adresu])
+Miasto NVARCHAR(50) NOT NULL,
+Ulica NVARCHAR(50) NOT NULL,
+[Nr budynku] INT NOT NULL,
+[Nr lokalu] INT,
+[Kod pocztowy] NVARCHAR(10) NOT NULL,
 );
 
 --Stworzenie tabeli Produkty
-CREATE TABLE Produkty ( --on delte cascade dodac
+CREATE TABLE Produkty (
 [ID produktu] INT IDENTITY (1,1) PRIMARY KEY,
 ISBN13 BIGINT UNIQUE NOT NULL,
-[ID kategorii] INT NOT NULL,
+[Nazwa kategorii] NVARCHAR(50),
 Tytul NVARCHAR(50) NOT NULL,
 [ID autora] INT NOT NULL,
 [ID serii] INT,
@@ -221,14 +221,14 @@ Wymiary NVARCHAR(50),
 Cena SMALLMONEY NOT NULL,
 Opis NVARCHAR(1000),
 
-FOREIGN KEY ([ID kategorii]) REFERENCES [Kategorie ksiazek]([ID kategorii]),
-FOREIGN KEY ([ID autora]) REFERENCES Autorzy([ID autora]),
+FOREIGN KEY ([Nazwa kategorii]) REFERENCES [Kategorie ksiazek]([Nazwa]) ON DELETE SET NULL,
+FOREIGN KEY ([ID autora]) REFERENCES Autorzy([ID autora]) ON DELETE CASCADE,
 FOREIGN KEY ([ID serii]) REFERENCES Serie([ID serii]),
-FOREIGN KEY ([ID wydawcy]) REFERENCES Wydawcy([ID wydawcy])
+FOREIGN KEY ([ID wydawcy]) REFERENCES Wydawcy([ID wydawcy]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Szczegoly Zamowien
-CREATE TABLE [Szczegoly Zamowien] ( --on delete
+CREATE TABLE [Szczegoly Zamowien] (
 [ID zamowienia] INT,
 [ID produktu] INT,
 Cena SMALLMONEY NOT NULL,
@@ -237,39 +237,38 @@ Obnizka REAL NOT NULL,
 
 PRIMARY KEY ([ID zamowienia], [ID produktu]),
 FOREIGN KEY ([ID zamowienia]) REFERENCES Zamowienia([ID zamowienia]),
-FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu])
+FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Grafik Zmian
-CREATE TABLE [Grafik Zmian] (-on delete
+CREATE TABLE [Grafik Zmian] (
 [ID Zmiany] INT,
 [ID Pracownika] INT,
 [Data] DATE NOT NULL,
   
-FOREIGN KEY ([ID Pracownika]) REFERENCES Pracownicy([ID Pracownika]),
-FOREIGN KEY ([ID Zmiany]) REFERENCES Zmiany([ID Zmiany]),
-PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data Rozpoczecia])
+FOREIGN KEY ([ID Pracownika]) REFERENCES Pracownicy([ID Pracownika]) ON DELETE CASCADE,
+FOREIGN KEY ([ID Zmiany]) REFERENCES Zmiany([ID Zmiany]) ON DELETE CASCADE,
+PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data])
 );
 
 --Stworzenie tabeli Zapotrzebowanie Na Pracownikow
 CREATE TABLE [Zapotrzebowanie Na Pracownikow] ( 
-[ID Stanowiska] INT PRIMARY KEY, --on delete
+[ID Stanowiska] INT PRIMARY KEY,
 [Ilosc Potrzebnych Pracownikow] INT NOT NULL,
 [Ilosc Zatrudnionych Pracownikow] INT NOT NULL,
   
-FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]),
+FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]) ON DELETE CASCADE,
 );
 
 --Stworzenie tabeli Opinie Klientow
-CREATE TABLE [Opinie Klientow] (--on delete
+CREATE TABLE [Opinie Klientow] (
 [ID Produktu] INT,
 [ID Klienta] INT,
 Data DATETIME,
 Tresc NVARCHAR(500),
 Ocena INT NOT NULL,
   
-FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu]),
+FOREIGN KEY ([ID produktu]) REFERENCES Produkty([ID produktu]) ON DELETE CASCADE,
 FOREIGN KEY ([ID Klienta]) REFERENCES Klienci([ID Klienta]),
-PRIMARY KEY ([ID Pracownika], [ID Klienta], Data)
+PRIMARY KEY ([ID Klienta], [ID Produktu], Data)
 );
-
