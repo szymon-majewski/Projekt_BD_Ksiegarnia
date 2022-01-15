@@ -35,11 +35,12 @@ SET Pensja = @Nowa_pensja
 WHERE [ID pracownika] = @ID;
 GO
 
---przykładowe wywołanie procedury - zmiana pensji pracownikowi o ID = 1 na 15 000
-EXEC dbo.zmien_pensje @ID = 1, @Nowa_pensja = 15000.00
+--przykładowe wywołanie procedury - zmiana pensji pracownikowi o ID = 9 na 15 000
+EXEC dbo.zmien_pensje @ID = 9, @Nowa_pensja = 15000.00
 GO
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 IF OBJECT_ID ('dbo.zmien_status_zamowienia') IS NOT NULL
 DROP PROCEDURE dbo.zmien_status_zamowienia;
@@ -99,8 +100,12 @@ SET [Status wysylki] = @temp + 1
 WHERE [ID zamowienia] = @ID;
 GO
 
---przykładowe wywołanie procedury - czterokrotne zaktualizowanie statusu dla zamówienia o ID = 5
-EXEC dbo.zmien_status_zamowienia @ID = 5
+--przykładowe wywołanie procedury - trzykrotne zaktualizowanie statusu dla zamówienia o ID = 3
+EXEC dbo.zmien_status_zamowienia @ID = 3
+GO
+EXEC dbo.zmien_status_zamowienia @ID = 3
+GO
+EXEC dbo.zmien_status_zamowienia @ID = 3
 GO
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -108,12 +113,11 @@ GO
 IF OBJECT_ID ('dbo.dodaj_klienta') IS NOT NULL
 DROP PROCEDURE dbo.dodaj_klienta;
 
---DOROBIC ADRES
-
 --procedura dodająca nowego klienta (tworząca nowe konto) do bazy wraz ze wszytkimi danymi, hasłem i loginem
 GO
-CREATE PROC dbo.dodaj_klienta( @Imie VARCHAR(50) = NULL, @Nazwisko VARCHAR(50) = NULL, @Login VARCHAR(50), 
-							   @Haslo VARCHAR(50), @Tel INT = NULL, @Mail NVARCHAR(255) = NULL )
+CREATE PROC dbo.dodaj_klienta( @Imie NVARCHAR(50) = NULL, @Nazwisko NVARCHAR(50) = NULL, @Miasto NVARCHAR(50) = NULL, @Ulica NVARCHAR(50) = NULL, @Budynek INT = NULL,
+							   @Lokal INT = NULL, @Kod NVARCHAR(10) = NULL, @Login NVARCHAR(50), @Haslo VARCHAR(50), 
+							   @Tel INT = NULL, @Mail NVARCHAR(255) = NULL )
 AS
  
 DECLARE @blad AS NVARCHAR(500);
@@ -146,16 +150,19 @@ IF @Mail IN (SELECT [E-mail] FROM Klienci)
 		RETURN;
 	END
 
-/*INSERT INTO Osoby(Imie, Nazwisko) -- + adres --dodam jak sie pojawi ta tabelka
-VALUES (@Imie, @Nazwisko);*/
+INSERT INTO Osoby(Imie, Nazwisko, Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy])
+VALUES (@Imie, @Nazwisko, @Miasto, @Ulica, @Budynek, @Lokal, @Kod);
 
-INSERT INTO Klienci( Imie, Nazwisko, [ID kategorii], [Nazwa konta], [Haslo do konta], Telefon, [E-mail] )
-VALUES(@Imie, @Nazwisko, 1, @Login, @Haslo, @Tel, @Mail );
+DECLARE @ID INT;
+SET @ID= ( SELECT MAX([ID osoby]) FROM Osoby )
+
+INSERT INTO Klienci([ID klienta], [ID kategorii], [Nazwa konta], [Haslo do konta], Telefon, [E-mail] )
+VALUES(@ID, 1, @Login, @Haslo, @Tel, @Mail );
 GO
 
 --przykładowe wywołanie procedury - dodanie klienta: Jan Kowalski wraz z danymi, loginem i hasłem
-EXEC dbo.dodaj_klienta  @Imie = 'Jan', @Nazwisko = 'Kowalski', @Login = 'jkowal', 
-							   @Haslo = '12asasdfgg', @Tel = 123123123, @Mail = NULL
+EXEC dbo.dodaj_klienta  @Imie = 'Jan', @Nazwisko = 'Kowalski', @Login = 'jkowal', @Miasto = 'Kraków', @Ulica = 'Focha', @Budynek = '123', @Kod = '30-111', 
+			@Haslo = '12asasdfgg', @Tel = 123123123, @Mail = NULL
 GO
 
 
