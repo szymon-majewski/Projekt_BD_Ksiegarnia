@@ -188,7 +188,7 @@ FOREIGN KEY ([ID punktu odbioru]) REFERENCES [Punkty odbioru]([ID punktu]) ON DE
 --Stworzenie tabeli Kategorie Ksiazek
 CREATE TABLE [Kategorie ksiazek] (
 [ID kategorii] INT IDENTITY(1,1) PRIMARY KEY,
-Nazwa NVARCHAR(50),
+Nazwa NVARCHAR(50) NOT NULL,
 Opis NVARCHAR(500)
 );
 
