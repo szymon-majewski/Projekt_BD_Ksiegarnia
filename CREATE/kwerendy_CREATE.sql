@@ -187,7 +187,9 @@ FOREIGN KEY ([ID punktu odbioru]) REFERENCES [Punkty odbioru]([ID punktu]) ON DE
 
 --Stworzenie tabeli Kategorie Ksiazek
 CREATE TABLE [Kategorie ksiazek] (
-Nazwa NVARCHAR(50) PRIMARY KEY
+[ID kategorii] INT IDENTITY(1,1) PRIMARY KEY,
+Nazwa NVARCHAR(50),
+Opis NVARCHAR(500)
 );
 
 --Stworzenie tabeli Wydawcy
@@ -205,7 +207,7 @@ Ulica NVARCHAR(50) NOT NULL,
 CREATE TABLE Produkty (
 [ID produktu] INT IDENTITY (1,1) PRIMARY KEY,
 ISBN13 BIGINT UNIQUE NOT NULL,
-[Nazwa kategorii] NVARCHAR(50),
+[ID kategorii] INT,
 Tytul NVARCHAR(50) NOT NULL,
 [ID autora] INT NOT NULL,
 [ID serii] INT,
@@ -221,10 +223,10 @@ Wymiary NVARCHAR(50),
 Cena SMALLMONEY NOT NULL,
 Opis NVARCHAR(1000),
 
-FOREIGN KEY ([Nazwa kategorii]) REFERENCES [Kategorie ksiazek]([Nazwa]) ON DELETE SET NULL,
 FOREIGN KEY ([ID autora]) REFERENCES Autorzy([ID autora]) ON DELETE CASCADE,
 FOREIGN KEY ([ID serii]) REFERENCES Serie([ID serii]),
-FOREIGN KEY ([ID wydawcy]) REFERENCES Wydawcy([ID wydawcy]) ON DELETE CASCADE
+FOREIGN KEY ([ID wydawcy]) REFERENCES Wydawcy([ID wydawcy]) ON DELETE CASCADE,
+FOREIGN KEY ([ID kategorii]) REFERENCES [Kategorie ksiazek]([ID kategorii]) ON DELETE CASCADE
 );
 
 --Stworzenie tabeli Szczegoly Zamowien
