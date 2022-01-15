@@ -1,26 +1,14 @@
---ew dorzucic te rabtay swiateczne z ograniczeniami
-INSERT INTO Rabaty (Nazwa, [Wysokosc Rabatu]) VALUES
-('Uniwersalny', 0.1),
-('Level1', 0.12),
-('Level2', 0.15),
-('Level3', 0.18),
-('Level4S', 0.21),
-('Okolicznosciowy', 0.2);
-
 INSERT INTO [Statusy zamowienia]([Nazwa statusu], [Opis statusu]) VALUES
 ('przyjete', 'oczekawinie na platnosc'),
 ('oplacone', 'trafilo do realizjcji'),
 ('do wyslanie', 'oczekuje na wyslke'),
 ('wyslano', 'zostalo wyslane'),
-('anulowane', 'oczekuje na zwrot przesylki/zwrot pieniedzy');
 
---usunac anonima
 INSERT INTO [Klienci Kategorie] ( Nazwa, [Minimalne Miesieczne Zakupy], [Maksymalne Miesieczne Zakupy], [ID Rabatu]) VALUES
-('Anonimowy', 0, 1500, 1),
-('Poczatkujacy', 0, 100, 2),
-('Zaawansowany', 100, 700, 3),
-('Ksiazkoholik', 700, 1000, 4),
-('Psychofan', 1000, 1500, 5);
+('Poczatkujacy', 0, 100, 1),
+('Zaawansowany', 100, 700, 2),
+('Ksiazkoholik', 700, 1000, 3),
+('Psychofan', 1000, 1500, 4);
 
 
 INSERT INTO [Urlopy Kategorie] (Nazwa, [Dopuszczalna Ilosc Dni], Opis) VALUES
