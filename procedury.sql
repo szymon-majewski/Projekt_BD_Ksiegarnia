@@ -222,3 +222,45 @@ GO
 
 EXECUTE dodaj_pracownika @Imie = 'Szymon', @Nazwisko = 'Majewski', @Miasto = 'Kraków', @Ulica = 'Focha', @Budynek = '123', @Kod = '30-111', @ID_Przelozonego = NULL, @ID_Stanowiska = 1, @Pensja = 20000.00
 		
+-------------------------------------------------------------------------------------------------------------
+
+IF OBJECT_ID('dbo.przypisz_klientowi_kategorie','P') IS NOT NULL DROP PROCEDURE dbo.przypisz_klientowi_kategorie
+
+GO
+CREATE PROCEDURE dbo.przypisz_klientowi_kategorie ( @ID_Klienta INT ) AS
+BEGIN
+	DECLARE @wydatki_w_ostatnim_miesiacu INT
+	SET @wydatki_w_ostatnim_miesiacu = ( SELECT * FROM miesieczne_wydatki_klienta( @ID_Klienta ) )
+	
+	DECLARE @Ilosc_Kategorii INT
+	SET @Ilosc_Kategorii = ( SELECT COUNT( [ID kategorii] ) FROM [Klienci Kategorie] )
+	
+	DECLARE @i INT
+	SET @i = 1
+	
+	WHILE (@i <= @Ilosc_Kategorii)
+	BEGIN
+		IF @wydatki_w_ostatnim_miesiacu < ( SELECT [Maksymalne Miesieczne Zakupy ] FROM [Klienci Kategorie]
+											WHERE [ID Kategorii] = @i )
+		BEGIN
+			UPDATE Klienci
+			SET [ID Kategorii] = @i
+			WHERE [ID Klienta] = @ID_Klienta
+			
+			RETURN
+		END
+		
+		SET @i = @i + 1
+	END
+	
+	UPDATE Klienci
+	SET [ID Kategorii] = ( @i - 1 )
+	WHERE [ID Klienta] = @ID_Klienta
+	
+	RETURN
+END
+	
+GO
+EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = 4
+
+-------------------------------------------------------------------------------------------------------------

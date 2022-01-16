@@ -111,3 +111,18 @@ END
 
 SELECT * FROM miesieczne_wydatki_klienta( 4 )
 
+--------------------------------------------------------------------------------------------------
+
+IF OBJECT_ID('historia_zatrudnien_na_stanowisku', 'FN') IS NOT NULL DROP FUNCTION historia_zatrudnien_na_stanowisku
+
+GO
+CREATE FUNCTION historia_zatrudnien_na_stanowisku( @ID_Stanowiska INT ) RETURNS TABLE AS RETURN (
+	SELECT P.[ID Pracownika], P.Imie, P.Nazwisko,
+	HZ.[Data zatrudnienia na stanowisku] AS [Data zatrudnienia], HZ.[Data zwolnienia] FROM [Historia Zatrudnien] AS HZ
+	JOIN Pracownicy AS P ON P.[ID Pracownika] = HZ.[ID Pracownika]
+	WHERE @ID_Stanowiska = HZ.[Stanowisko] -- dlaczego w create tu nie ma foreign key do tabeli stanowiska?
+)
+
+GO
+SELECT * FROM historia_zatrudnien_na_stanowisku( 1 )
+
