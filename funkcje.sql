@@ -78,3 +78,36 @@ GO
 -- przykładowe wywołanie funkcji (wypisanie informacji o zamowieniach klienta o ID = 4):
 SELECT * FROM dbo.wyswietl_zamowienia_klienta(4)
 
+---------------------------------------------SZYMON-----------------------------------------------
+
+IF OBJECT_ID('pracownicy_na_zmianie', 'FN') IS NOT NULL DROP FUNCTION pracownicy_na_zmianie
+
+GO
+CREATE FUNCTION pracownicy_na_zmianie( @ID_Zmiany INT, @Data DATE ) RETURNS TABLE AS RETURN (
+	SELECT P.[ID Pracownika], P.Imie, P.Nazwisko FROM [Grafik Zmian] AS G
+	JOIN Pracownicy AS P ON P.[ID Pracownika] = G.[ID Pracownika]
+	WHERE @ID_Zmiany = G.[ID Zmiany] AND @Data = G.Data
+)
+
+GO
+SELECT * FROM pracownicy_na_zmianie(1, '2022-01-13')
+
+--------------------------------------------------------------------------------------------------
+
+IF OBJECT_ID('miesieczne_wydatki_klienta', 'FN') IS NOT NULL DROP FUNCTION miesieczne_wydatki_klienta
+
+GO
+CREATE FUNCTION miesieczne_wydatki_klienta( @ID_Klienta INT ) RETURN MONEY AS
+BEGIN
+	DECLARE @Wydatki MONEY
+	
+	-- przy wyliczaniu wydatkow uwzgledniac rabat nadany w ramach kategorii klienta? (kategoria mogla sie zmienic w trakcie miesiaca) Jesli tak to jak? Moze po prostu tu sumowac cene bazowa ksiazek w zamowieniu i na tej podstawie potem wyznaczac kategorie klienta, bo im wyzsza kategoria, tym mniej sprawiedliwe jest wbijanie kolejnej
+	SET @Wydatki = ( SELECT SUM(ROUND(SZ.Ilosc * CAST((SZ.Cena * SZ.obnizka) AS MONEY ), 2)) FROM Zamowienia AS Z
+					 JOIN [Szczegoly Zamowien] AS SZ ON Z.[ID zamowienia] = SZ.[ID zamowienia]
+					 WHERE @ID_Klienta = Z.[ID klienta] AND DATEDIFF( month, GETDATE, Z.[Data i czas zamowienia]) <= 1
+					 GROUP BY Z.[ID klienta] )
+	RETURN @Wydatki
+END
+
+SELECT * FROM miesieczne_wydatki_klienta( 4 )
+

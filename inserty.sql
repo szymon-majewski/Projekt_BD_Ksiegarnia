@@ -168,7 +168,7 @@ INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pen
 (13, 1, 2, 50000);
 
 --bullshit dane
-INSERT INTO Zamowienia ([ID klienta], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odioru]) VALUES
+INSERT INTO Zamowienia ([ID klienta], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odbioru]) VALUES
 (4, '2022-01-12', 4, '2022-01-14', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
 (5, '2022-01-10', 4, '2022-01-12', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
 (6, '2022-01-09', 1, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL),
