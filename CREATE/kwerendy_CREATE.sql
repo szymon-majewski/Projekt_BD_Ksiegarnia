@@ -168,6 +168,7 @@ FOREIGN KEY ([ID pracownika]) REFERENCES Pracownicy([ID pracownika]) ON DELETE C
 CREATE TABLE Zamowienia (
 [ID zamowienia] INT IDENTITY(1,1) PRIMARY KEY,
 [ID klienta] INT NOT NULL,
+[Rabat kliencki] REAL NOT NULL,
 [Data i czas zamowienia] DATETIME NOT NULL,
 [Status wysylki] INT NOT NULL,
 [Data wysylki] DATE,
@@ -221,6 +222,7 @@ Wymiary NVARCHAR(50),
 [Liczba stron] INT,
 [Ilosc w magazynie] INT NOT NULL,
 Cena SMALLMONEY NOT NULL,
+Obnizka REAL NOT NULL,
 Opis NVARCHAR(1000),
 
 FOREIGN KEY ([ID autora]) REFERENCES Autorzy([ID autora]) ON DELETE CASCADE,
