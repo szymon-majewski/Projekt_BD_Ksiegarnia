@@ -62,7 +62,7 @@ RETURN (
 			CONCAT( Z.[Kod pocztowy], ' ', Z.[Miasto], ' ', Z.[Ulica], ' ',  Z.[Nr budynku], ' ', Z.[Nr lokalu]) AS Adres,
 			OW.[Typ] AS [Metoda wysylki], ISNULL(PO.[Nazwa],'')  AS [Punkt odbioru], 
 			CONCAT( PO.[Kod pocztowy], ' ', PO.[Miasto], ' ', PO.[Ulica], ' ',  PO.[Nr budynku]) AS [Adres Punktu Odbioru],
-			CAST(SUM( ( SZ.Cena * (1 - Obnizka) ) + OW.Cena  ) AS MONEY ) AS Kwota
+			CAST( ( SUM( ( SZ.Cena * (1 - Obnizka) ) + OW.Cena) * ( 1- Z.[Rabat kliencki] ) ) AS MONEY ) AS Kwota
 	FROM [Klienci] K
 	JOIN Zamowienia Z ON K.[ID Klienta] = Z.[ID klienta]
 	JOIN [Szczegoly Zamowien] SZ ON Z.[ID zamowienia] = SZ.[ID zamowienia]	
@@ -71,7 +71,7 @@ RETURN (
 	WHERE K.[ID Klienta] = @ID
 	GROUP BY SZ.[ID zamowienia], Z.[Data i czas zamowienia], Z.[Status wysylki], Z.[Data wysylki],
 			 Z.[Miasto], Z.[Ulica], Z.[Nr budynku], Z.[Nr lokalu], Z.[Kod pocztowy], OW.Typ, PO.[Nazwa], 
-			 PO.[Miasto], PO.[Ulica], PO.[Nr budynku], PO.[Kod pocztowy], OW.Cena
+			 PO.[Miasto], PO.[Ulica], PO.[Nr budynku], PO.[Kod pocztowy], OW.Cena, Z.[Rabat kliencki]
 )
 GO
 
