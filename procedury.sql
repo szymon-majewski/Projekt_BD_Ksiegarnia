@@ -264,3 +264,117 @@ GO
 EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = 4
 
 -------------------------------------------------------------------------------------------------------------
+
+CREATE TYPE Pozycje_Zamowienia_TYP AS TABLE (
+	ID_Produktu INT,
+	Ilosc INT
+)
+
+IF OBJECT_ID('dbo.zloz_zamowienie','P') IS NOT NULL DROP PROCEDURE dbo.zloz_zamowienie
+
+GO
+CREATE PROCEDURE dbo.zloz_zamowienie ( @pozycje_zamowienia Pozycje_Zamowienia_TYP READONLY, @ID_Klienta INT,
+@Miasto NVARCHAR(50) = NULL, @Ulica NVARCHAR(50) = NULL, @Nr_Budynku = NULL, @Nr_Lokalu = NULL, @Kod_Pocztowy = NULL, @Metoda_Wysylki = NULL, @ID_Punktu_Odbioru = NULL ) AS
+BEGIN
+	DECLARE @blad AS NVARCHAR(100);
+	
+	-- zamowienie puste
+	IF ( SELECT COUNT(ID_Produktu) FROM @pozycje_zamowienia ) = 0
+	BEGIN
+		SET @blad = 'Koszyk pusty. Zamowienie nie zostalo zlozone';
+		RAISERROR(@blad, 16, 1);
+		RETURN;
+	END
+
+	-- brak danych do wysylki (albo punktu odbioru, albo adresu)
+	IF @ID_Punktu_Odbioru IS NULL AND ( @Miasto IS NULL OR @Ulica IS NULL OR @Nr_Budynku IS NULL OR @Kod_Pocztowy IS NULL )
+	BEGIN
+		SET @blad = 'Niepelne dane do wysylki. Zamowienie nie zostalo zlozone';
+		RAISERROR(@blad, 16, 1);
+		RETURN;
+	END
+	
+	DECLARE @ID_Prod INT
+	DECLARE @Liczba INT
+	
+	DECLARE wiersz_zamowienia CURSOR FOR
+	SELECT ID_Produktu, Ilosc FROM @pozycje_zamowienia
+	
+	OPEN wiersz_zamowienia
+	
+	FETCH NEXT FROM wiersz_zamowienia INTO @ID_Prod, @Liczba
+	
+	--brak towaru na stanie
+	WHILE ( @@FETCH_STATUS = 0 )
+	BEGIN
+		IF @Liczba > ( SELECT [Ilosc w magazynie] FROM Produkty WHERE @ID_Prod = [ID Produktu] )
+		BEGIN
+			SET @blad = 'Brak towaru na stanie. Zamowienie nie zostalo zlozone';
+			RAISERROR(@blad, 16, 1);
+			CLOSE wiersz_zamowienia
+			DEALLOCATE wiersz_zamowienia
+			RETURN;
+		END
+		
+		FETCH NEXT FROM wiersz_zamowienia INTO @ID_Prod, @Liczba
+	END
+	
+	CLOSE wiersz_zamowienia
+	DEALLOCATE wiersz_zamowienia
+	
+	--odjecie towaru ze stanu
+	DECLARE wiersz_zamowienia2 CURSOR FOR
+	SELECT ID_Produktu, Ilosc FROM @pozycje_zamowienia
+	
+	OPEN wiersz_zamowienia2
+	
+	FETCH NEXT FROM wiersz_zamowienia2 INTO @ID_Prod, @Liczba
+	
+	WHILE ( @@FETCH_STATUS = 0 )
+	BEGIN
+		UPDATE Produkty
+		SET [Ilosc w magazynie] = [Ilosc w magazynie] - @Liczba
+		WHERE @ID_Prod = [ID Produktu]
+		
+		FETCH NEXT FROM wiersz_zamowienia2 INTO @ID_Prod, @Liczba
+	END
+	
+	CLOSE wiersz_zamowienia2
+	DEALLOCATE wiersz_zamowienia2
+	
+	--nadanie klientowi kategorii
+	EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = @ID_Klienta --to przejdzie?
+	DECLARE @ID_Kategorii_Klienta INT
+	SET @ID_Kategorii_Klienta = ( SELECT [ID Kategorii] FROM Klienci WHERE @ID_Klienta = [ID Klienta] )
+	
+	--dodanie zamowienia
+	INSERT INTO Zamowienia ( [ID klienta], [Data i czas zamowienia], [Status wysylki], [Data wysylki], Miasto,Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda Wysylki], [ID Punktu Odbioru] )
+	VALUES ( @ID_Klienta, GETDATE(), 1, NULL, @Miasto, @Ulica, @Nr_Budynku, @Nr_Lokalu, @Kod_Pocztowy, @Metoda_Wysylki, @ID_Punktu_Odbioru )
+	
+	DECLARE @ID INT;
+	SET @ID = ( SELECT MAX( [ID Zamowienia] ) FROM Zamowienia )
+	
+	--dodanie szczegolow zamowienia
+	DECLARE wiersz_zamowienia3 CURSOR FOR
+	SELECT ID_Produktu, Ilosc FROM @pozycje_zamowienia
+	
+	OPEN wiersz_zamowienia3
+	
+	FETCH NEXT FROM wiersz_zamowienia3 INTO @ID_Prod, @Liczba
+	
+	WHILE ( @@FETCH_STATUS = 0 )
+	BEGIN
+		INSERT INTO [Szczegoly Zamowien] ( [ID Zamowienia], [ID produktu], Cena, Ilosc, Obnizka ) --co wstawic w cena? cena jest w tabeli Produkty. Chyba ze tu jest cena produktu, która obowiazywala w czasie skladania zamowienia i mogla ulec potem zmianie.
+		--nie wiem czy dobrze rozumiem obnizke jako rabat wynikajacy z kategorii klienta. Jesli nie, to gdzie bedzie trzymany ten rabat z kategorii wyznaczony w trakcie skladania zamowienia?
+		VALUES ( @ID, @ID_Prod, ( SELECT Cena FROM Produkty WHERE [ID Produktu] = @ID_Prod ), @Liczba,
+		( SELECT Rabat FROM [Klienci Kategorie] WHERE @ID_Kategorii_Klienta = [ID Kategorii] ) )
+		
+		FETCH NEXT FROM wiersz_zamowienia3 INTO @ID_Prod, @Liczba
+	END
+	
+	CLOSE wiersz_zamowienia3
+	DEALLOCATE wiersz_zamowienia3
+	
+END
+
+--przykladzior
