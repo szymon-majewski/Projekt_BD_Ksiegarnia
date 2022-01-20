@@ -1,6 +1,6 @@
 INSERT INTO [Statusy zamowienia]([Nazwa statusu], [Opis statusu]) VALUES
-('przyjete', 'oczekawinie na platnosc'),
-('oplacone', 'trafilo do realizjcji'),
+('przyjeto', 'oczekawinie na platnosc'),
+('oplacono', 'trafilo do realizjcji'),
 ('do wyslania', 'oczekuje na wyslke'),
 ('wyslano', 'zostalo wyslane');
 
