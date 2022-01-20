@@ -1,10 +1,3 @@
-ALTER TABLE Klienci 
-DROP CONSTRAINT CK1_Klienci
-
-ALTER TABLE Klienci 
-DROP CONSTRAINT CK2_Klienci
-
-
 IF OBJECT_ID('Urlopy') IS NOT NULL 
 	DROP TABLE Urlopy;
 
@@ -79,3 +72,6 @@ IF OBJECT_ID('Stanowiska') IS NOT NULL
 
 IF OBJECT_ID('Adresy') IS NOT NULL 
 	DROP TABLE Adresy;
+
+IF OBJECT_ID('Osoby') IS NOT NULL 
+	DROP TABLE Osoby;
