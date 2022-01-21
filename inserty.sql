@@ -216,7 +216,7 @@ INSERT INTO [Grafik Zmian] ([ID Zmiany], [ID Pracownika], [Data]) VALUES
 (4, 13, '2022-01-14');
 
 --dane wyciagane bezposrednio z tabeli pracownicy pomijajc ilosc potrzenych pracownkow 
-INSERT INTO [Zapotrzebowanie Na Pracownikow] ([ID Stanowiska], [Ilosc Potrzebnych Pracownikow], [Ilosc Zatrudnionych Pracownikow]) VALUES
+INSERT INTO [Zapotrzebowanie Na Pracownikow] ([ID_Stanowiska], [Ilosc Potrzebnych Pracownikow], [Ilosc Zatrudnionych Pracownikow]) VALUES
 (2, 10, 4),
 (1, 1, 1);
 
