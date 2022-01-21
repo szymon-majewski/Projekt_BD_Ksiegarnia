@@ -7,7 +7,7 @@ CREATE FUNCTION dbo.wyswietl_wszystkie_pozycje_kategorii(@kategoria AS NVARCHAR(
 RETURNS TABLE AS 
 RETURN (
 
-	SELECT P.Tytul, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
+	SELECT P.Tytul, P.ISBN13, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
 			P.Oprawa, P.Wymiary, P.[Liczba stron], P.Cena, P.Opis
 	FROM [Kategorie ksiazek] K 
 	JOIN Produkty P ON K.[ID kategorii] = P.[ID kategorii]
@@ -32,7 +32,7 @@ CREATE FUNCTION dbo.wyswietl_wszystkie_pozycje_serii(@seria AS NVARCHAR(300))
 RETURNS TABLE AS 
 RETURN (
 
-	SELECT P.Tytul, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
+	SELECT P.Tytul, P.ISBN13, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
 			P.Oprawa, P.Wymiary, P.[Liczba stron], P.Cena, P.Opis
 	FROM [Serie] S
 	JOIN Produkty P ON S.[ID Serii] = P.[ID serii]
