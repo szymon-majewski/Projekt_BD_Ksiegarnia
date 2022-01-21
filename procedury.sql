@@ -196,7 +196,7 @@ BEGIN
 	END
 	
 	IF ( SELECT [Ilosc Potrzebnych Pracownikow] FROM [Zapotrzebowanie Na Pracownikow] --trzeba przetestowac
-		 WHERE [ID_Stanowiska] = @ID_Stanowiska ) = 0
+		 WHERE [ID Stanowiska] = @ID_Stanowiska ) = 0
 	BEGIN
 		SET @blad = 'Brak zapotrzebowania pracownikow na podane stanowisko. Dodanie pracownika nie powiodlo sie';
 		RAISERROR(@blad, 16, 1);
@@ -206,7 +206,7 @@ BEGIN
 	UPDATE [Zapotrzebowanie Na Pracownikow]
 	SET [Ilosc Potrzebnych Pracownikow] = ( [Ilosc Potrzebnych Pracownikow] - 1 ),
 	[Ilosc Zatrudnionych Pracownikow] = ( [Ilosc Zatrudnionych Pracownikow] + 1 )
-	WHERE [ID_Stanowiska] = @ID_Stanowiska
+	WHERE [ID Stanowiska] = @ID_Stanowiska
 	
 	INSERT INTO Osoby(Imie, Nazwisko, Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy])
 	VALUES (@Imie, @Nazwisko, @Miasto, @Ulica, @Budynek, @Lokal, @Kod_Pocztowy);
