@@ -162,10 +162,10 @@ INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
 --bullshit dane
 INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pensja) VALUES
 (9, NULL, 1, 90000),
-(10, 1, 2, 50000),
-(11, 1, 2, 50000),
-(12, 1, 2, 60000),
-(13, 1, 2, 50000);
+(10, 9, 2, 50000),
+(11, 9, 2, 50000),
+(12, 9, 2, 60000),
+(13, 9, 2, 50000);
 
 --bullshit dane
 INSERT INTO Zamowienia ([ID klienta], [Rabat kliencki], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odbioru]) VALUES
