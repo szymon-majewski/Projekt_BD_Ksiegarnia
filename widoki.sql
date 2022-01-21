@@ -32,4 +32,14 @@ WHERE [ID stanowiska] IN
 (SELECT [ID stanowiska] FROM Stanowiska
 WHERE Nazwa = 'Pracownik Obslugi Klienta');
 
+IF OBJECT_ID ( 'zapotrzebowanie_pracownikow') IS NOT NULL
+	DROP VIEW zapotrzebowanie_pracownikow;
+
+--widok wyświetlający obecne zapotrzebowanie na pracownikow
+--cos bez sensu troche ten widok
+GO
+CREATE VIEW zapotrzebowanie_pracownikow AS
+SELECT * FROM [Zapotrzebowanie Na Pracownikow] Z
+WHERE [Ilosc Potrzebnych Pracownikow] > [Ilosc Zatrudnionych Pracownikow];
+ 
 
