@@ -257,11 +257,11 @@ PRIMARY KEY ([ID Zmiany], [ID Pracownika], [Data])
 
 --Stworzenie tabeli Zapotrzebowanie Na Pracownikow
 CREATE TABLE [Zapotrzebowanie Na Pracownikow] ( 
-[ID Stanowiska] INT PRIMARY KEY,
+[ID_Stanowiska] INT PRIMARY KEY,
 [Ilosc Potrzebnych Pracownikow] INT NOT NULL,
 [Ilosc Zatrudnionych Pracownikow] INT NOT NULL,
   
-FOREIGN KEY ([ID Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]) ON DELETE CASCADE,
+FOREIGN KEY ([ID_Stanowiska]) REFERENCES Stanowiska([ID Stanowiska]) ON DELETE CASCADE,
 );
 
 --Stworzenie tabeli Opinie Klientow
