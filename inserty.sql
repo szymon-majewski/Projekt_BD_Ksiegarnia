@@ -172,6 +172,8 @@ INSERT INTO Zamowienia ([ID klienta], [Rabat kliencki], [Data i czas zamowienia]
 (4, 0.1, '2022-01-12', 4, '2022-01-14', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
 (5, 0.05, '2022-01-10', 4, '2022-01-12', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
 (6, 0.1, '2022-01-09', 1, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL),
+(5, 0.05, '2022-01-21', 3, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
+(6, 0.1, '2022-01-12', 2, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL),
 (4, 0.1, '2022-01-13', 4, '2022-01-14', NULL, NULL, NULL, NULL, NULL, 1, 1 );
 
 --bullshit dane
