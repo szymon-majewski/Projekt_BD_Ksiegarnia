@@ -1,9 +1,9 @@
-IF OBJECT_ID ('dbo.zmien_pensje') IS NOT NULL
-DROP PROCEDURE dbo.zmien_pensje;
+IF OBJECT_ID ('zmien_pensje') IS NOT NULL
+DROP PROCEDURE zmien_pensje;
 
 --procedura zmienia pensję pracownikowi o ID danym argumentem na nową, ponadto przed zmianą dodaje obecną pensję do zarchiwizowanych (historii)
 GO
-CREATE PROCEDURE dbo.zmien_pensje ( @ID INT = NULL, @Nowa_pensja MONEY = NULL )
+CREATE PROCEDURE zmien_pensje ( @ID INT = NULL, @Nowa_pensja MONEY = NULL )
 AS
  
 DECLARE @blad AS NVARCHAR(500);
@@ -36,19 +36,19 @@ WHERE [ID pracownika] = @ID;
 GO
 
 --przykładowe wywołanie procedury - zmiana pensji pracownikowi o ID = 9 na 15 000
-EXEC dbo.zmien_pensje @ID = 9, @Nowa_pensja = 15000.00
+EXEC zmien_pensje @ID = 9, @Nowa_pensja = 15000.00
 GO
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-IF OBJECT_ID ('dbo.zmien_status_zamowienia') IS NOT NULL
-DROP PROCEDURE dbo.zmien_status_zamowienia;
+IF OBJECT_ID ('zmien_status_zamowienia') IS NOT NULL
+DROP PROCEDURE zmien_status_zamowienia;
 
 --procedura zmienia status zamowienia o ID danym argumentem na następny w kolejności, w momencie, gdy status zmieni się na 'wysłano' aktualizowana
 --jest data wysyłki w tabeli Zamowienia
 GO
-CREATE PROCEDURE dbo.zmien_status_zamowienia ( @ID INT = NULL )
+CREATE PROCEDURE zmien_status_zamowienia ( @ID INT = NULL )
 AS
  
 DECLARE @blad AS NVARCHAR(500);
@@ -101,21 +101,21 @@ WHERE [ID zamowienia] = @ID;
 GO
 
 --przykładowe wywołanie procedury - trzykrotne zaktualizowanie statusu dla zamówienia o ID = 3
-EXEC dbo.zmien_status_zamowienia @ID = 3
+EXEC zmien_status_zamowienia @ID = 3
 GO
-EXEC dbo.zmien_status_zamowienia @ID = 3
+EXEC zmien_status_zamowienia @ID = 3
 GO
-EXEC dbo.zmien_status_zamowienia @ID = 3
+EXEC zmien_status_zamowienia @ID = 3
 GO
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-IF OBJECT_ID ('dbo.dodaj_klienta') IS NOT NULL
-DROP PROCEDURE dbo.dodaj_klienta;
+IF OBJECT_ID ('dodaj_klienta') IS NOT NULL
+DROP PROCEDURE dodaj_klienta;
 
 --procedura dodająca nowego klienta (tworząca nowe konto) do bazy wraz ze wszytkimi danymi, hasłem i loginem
 GO
-CREATE PROC dbo.dodaj_klienta( @Imie NVARCHAR(50) = NULL, @Nazwisko NVARCHAR(50) = NULL, @Miasto NVARCHAR(50) = NULL, @Ulica NVARCHAR(50) = NULL, @Budynek INT = NULL,
+CREATE PROC dodaj_klienta( @Imie NVARCHAR(50) = NULL, @Nazwisko NVARCHAR(50) = NULL, @Miasto NVARCHAR(50) = NULL, @Ulica NVARCHAR(50) = NULL, @Budynek INT = NULL,
 							   @Lokal INT = NULL, @Kod NVARCHAR(10) = NULL, @Login NVARCHAR(50), @Haslo VARCHAR(50), 
 							   @Tel INT = NULL, @Mail NVARCHAR(255) = NULL )
 AS
@@ -161,7 +161,7 @@ VALUES(@ID, 1, @Login, @Haslo, @Tel, @Mail );
 GO
 
 --przykładowe wywołanie procedury - dodanie klienta: Jan Kowalski wraz z danymi, loginem i hasłem
-EXEC dbo.dodaj_klienta  @Imie = 'Jan', @Nazwisko = 'Kowalski', @Login = 'jkowal', @Miasto = 'Kraków', @Ulica = 'Focha', @Budynek = '123', @Kod = '30-111', 
+EXEC dodaj_klienta  @Imie = 'Jan', @Nazwisko = 'Kowalski', @Login = 'jkowal', @Miasto = 'Kraków', @Ulica = 'Focha', @Budynek = '123', @Kod = '30-111', 
 			@Haslo = '12asasdfgg', @Tel = 123123123, @Mail = NULL
 GO
 
