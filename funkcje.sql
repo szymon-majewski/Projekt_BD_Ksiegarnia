@@ -1,9 +1,9 @@
-IF OBJECT_ID('dbo.wyswietl_wszystkie_pozycje_kategorii') IS NOT NULL
-DROP FUNCTION dbo.wyswietl_wszystkie_pozycje_kategorii
+IF OBJECT_ID('wyswietl_wszystkie_pozycje_kategorii') IS NOT NULL
+DROP FUNCTION wyswietl_wszystkie_pozycje_kategorii
 
 --funkcja wyswietlajaca informacje o pozycjach z kategorii danej argumentem
 GO
-CREATE FUNCTION dbo.wyswietl_wszystkie_pozycje_kategorii(@kategoria AS NVARCHAR(50)) 
+CREATE FUNCTION wyswietl_wszystkie_pozycje_kategorii(@kategoria AS NVARCHAR(50)) 
 RETURNS TABLE AS 
 RETURN (
 
@@ -19,16 +19,16 @@ RETURN (
 GO
 
 -- przykładowe wywołanie funkcji (wypisanie informacji o pozycjach z kategorii 'fantastyka' ):
-SELECT * FROM dbo.wyswietl_wszystkie_pozycje_kategorii('fantastyka')
+SELECT * FROM wyswietl_wszystkie_pozycje_kategorii('fantastyka')
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-IF OBJECT_ID('dbo.wyswietl_wszystkie_pozycje_serii') IS NOT NULL
-DROP FUNCTION dbo.wyswietl_wszystkie_pozycje_serii
+IF OBJECT_ID('wyswietl_wszystkie_pozycje_serii') IS NOT NULL
+DROP FUNCTION wyswietl_wszystkie_pozycje_serii
 
 --funkcja wyswietlajaca szczegoly ksiazek nalezacych do serii danej argumentem
 GO
-CREATE FUNCTION dbo.wyswietl_wszystkie_pozycje_serii(@seria AS NVARCHAR(300))
+CREATE FUNCTION wyswietl_wszystkie_pozycje_serii(@seria AS NVARCHAR(300))
 RETURNS TABLE AS 
 RETURN (
 
@@ -45,16 +45,16 @@ RETURN (
 GO
 
 -- przykładowe wywołanie funkcji (wypisanie informacji o pozycjach z serii 'The Green Bone Saga' ):
-SELECT * FROM dbo.wyswietl_wszystkie_pozycje_serii('The Green Bone Saga')
+SELECT * FROM wyswietl_wszystkie_pozycje_serii('The Green Bone Saga')
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-IF OBJECT_ID('dbo.wyswietl_zamowienia_klienta') IS NOT NULL
-DROP FUNCTION dbo.wyswietl_zamowienia_klienta
+IF OBJECT_ID('wyswietl_zamowienia_klienta') IS NOT NULL
+DROP FUNCTION wyswietl_zamowienia_klienta
 
 --funkcja wyswietlajaca informacje o wszystkich zamowieniach klienta, ktorego ID jest dane argumentem 
 GO
-CREATE FUNCTION dbo.wyswietl_zamowienia_klienta(@ID AS INT)
+CREATE FUNCTION wyswietl_zamowienia_klienta(@ID AS INT)
 RETURNS TABLE AS 
 RETURN (
 
@@ -76,7 +76,7 @@ RETURN (
 GO
 
 -- przykładowe wywołanie funkcji (wypisanie informacji o zamowieniach klienta o ID = 4):
-SELECT * FROM dbo.wyswietl_zamowienia_klienta(4)
+SELECT * FROM wyswietl_zamowienia_klienta(4)
 
 ---------------------------------------------SZYMON-----------------------------------------------
 
