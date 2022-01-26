@@ -48,7 +48,31 @@ GO
 SELECT * FROM wyswietl_wszystkie_pozycje_serii('The Green Bone Saga')
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
+IF OBJECT_ID('wyswietl_ksiazki_autora') IS NOT NULL
+DROP FUNCTION wyswietl_ksiazki_autora
 
+-- funkcja wyswietlajaca dane ksiazek napisanych przez danego argumentem autora
+GO
+CREATE FUNCTION wyswietl_ksiazki_autora(@autor_nazwisko AS NVARCHAR(50), @autor_imie AS NVARCHAR(50)) 
+RETURNS TABLE AS 
+RETURN (
+
+	SELECT P.Tytul, P.ISBN13, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], S.Nazwa AS [Nazwa serii] ,P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
+			P.Oprawa, P.Wymiary, P.[Liczba stron], (P.Cena * (1 - P.Obnizka)) AS Cena , P.Opis
+	FROM Osoby O
+	JOIN Autorzy A ON O.[ID osoby] = A.[ID autora]
+	JOIN Produkty P ON O.[ID osoby] = P.[ID autora] 
+	JOIN Serie S ON O.[ID osoby] = S.[ID autora]
+	JOIN Wydawcy W ON W.[ID wydawcy] = P.[ID wydawcy]
+	WHERE O.Imie =  @autor_imie AND O.Nazwisko = @autor_nazwisko
+
+)
+GO
+
+-- przykładowe wywołanie funkcji (wypisanie informacji o pozycjach autorstwa Fondy Lee):
+SELECT * FROM wyswietl_ksiazki_autora('Lee', 'Fonda')
+
+-----------------------------------------------------
 IF OBJECT_ID('wyswietl_zamowienia_klienta') IS NOT NULL
 DROP FUNCTION wyswietl_zamowienia_klienta
 
