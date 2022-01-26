@@ -40,12 +40,21 @@ IF OBJECT_ID ( 'zapotrzebowanie_pracownikow') IS NOT NULL
 	DROP VIEW zapotrzebowanie_pracownikow;
 
 --widok wyświetlający obecne zapotrzebowanie na pracownikow
---cos bez sensu troche ten widok
 GO
 CREATE VIEW zapotrzebowanie_pracownikow AS
-SELECT * FROM [Zapotrzebowanie Na Pracownikow] Z
-WHERE [Ilosc Potrzebnych Pracownikow] > [Ilosc Zatrudnionych Pracownikow];
- 
+SELECT Z.[ID stanowiska] AS [ID Stanowiska], (Z.[Ilosc Potrzebnych Pracownikow] - Z.[Ilosc Zatrudnionych Pracownikow]) AS [Ilosc pracownikow do zatrudnienia],
+S.Nazwa AS Stanowisko, S.Obowiazki AS Obowiazki, S.Kwalifikacje AS [Wymagane Kwalifikacje]
+FROM [Zapotrzebowanie Na Pracownikow] Z
+	 JOIN Stanowiska AS S ON S.[ID stanowiska] = Z.[ID stanowiska]
+WHERE Z.[Ilosc Potrzebnych Pracownikow] > Z.[Ilosc Zatrudnionych Pracownikow];
+GO
+
+/*
+--testowanie dzialania
+SELECT * FROM zapotrzebowanie_pracownikow;
+SELECT * FROM [Zapotrzebowanie Na Pracownikow];
+SELECT * FROM Stanowiska;
+*/
  -------------------
  
  IF OBJECT_ID ( 'hierarchia_pracownikow') IS NOT NULL
