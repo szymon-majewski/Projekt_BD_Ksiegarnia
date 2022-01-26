@@ -12,7 +12,7 @@ AS
 	PRINT @Text
 GO
 
--- zatrudniono pracownika na danym stanowisku
+-- zatrudniono pracownika na danym stanowisku -dziala
 IF OBJECT_ID('zatrudniono_pracownika', 'TR') IS NOT NULL
 	DROP TRIGGER zatrudniono_pracownika
 GO
@@ -25,7 +25,7 @@ AS
 	PRINT @Text
 GO
 
- --wyzwalacz dodanie_klienta
+ --wyzwalacz dodanie_klienta - dziala
 IF OBJECT_ID('dodano_klienta', 'TR') IS NOT NULL
 	DROP TRIGGER dodano_klienta
 GO
@@ -38,7 +38,7 @@ AS
 	PRINT @Text
 GO
 
- --wyzwalacz usuwanie_konta
+ --wyzwalacz usuwanie_konta ??
 IF OBJECT_ID('usuniento_konto', 'TR') IS NOT NULL
 	DROP TRIGGER usuniento_konto
 GO
