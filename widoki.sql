@@ -20,6 +20,8 @@ SELECT * FROM Zamowienia Z
 	LEFT JOIN [Statusy zamowienia] S ON S.[ID Statusu] = Z.[Status wysylki]
 WHERE [Nazwa statusu] = N'oplacono' OR [Nazwa statusu] = N'do wyslania';
 
+-------------------
+
 IF OBJECT_ID ( 'pracownicy_obslugii_klienta') IS NOT NULL
 	DROP VIEW pracownicy_obslugii_klienta;
 
@@ -32,6 +34,8 @@ WHERE [ID stanowiska] IN
 (SELECT [ID stanowiska] FROM Stanowiska
 WHERE Nazwa = 'Pracownik Obslugi Klienta');
 
+-------------------
+
 IF OBJECT_ID ( 'zapotrzebowanie_pracownikow') IS NOT NULL
 	DROP VIEW zapotrzebowanie_pracownikow;
 
@@ -42,6 +46,7 @@ CREATE VIEW zapotrzebowanie_pracownikow AS
 SELECT * FROM [Zapotrzebowanie Na Pracownikow] Z
 WHERE [Ilosc Potrzebnych Pracownikow] > [Ilosc Zatrudnionych Pracownikow];
  
+ -------------------
  
  IF OBJECT_ID ( 'hierarchia_pracownikow') IS NOT NULL
 	DROP VIEW hierarchia_pracownikow;
@@ -67,3 +72,5 @@ SELECT * FROM Pracownicy;
 SELECT * FROM Osoby;
 SELECT * FROM Stanowiska;
 */
+
+-------------------
