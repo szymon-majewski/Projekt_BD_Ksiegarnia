@@ -13,11 +13,11 @@ AS
 GO
 
 -- zatrudniono pracownika na danym stanowisku
-IF OBJECT_ID('zatrudniono pracownika', 'TR') IS NOT NULL
-	DROP TRIGGER zatrudniono pracownika
+IF OBJECT_ID('zatrudniono_pracownika', 'TR') IS NOT NULL
+	DROP TRIGGER zatrudniono_pracownika
 GO
 
-CREATE TRIGGER zatrudniono pracownika ON Pracownicy
+CREATE TRIGGER zatrudniono_pracownika ON Pracownicy
 AFTER INSERT
 AS 
 	DECLARE @Text VARCHAR(256)
@@ -25,12 +25,12 @@ AS
 	PRINT @Text
 GO
 
- --wyzwalacz dodanie klienta
-IF OBJECT_ID('dodano klienta', 'TR') IS NOT NULL
-	DROP TRIGGER dodano klienta
+ --wyzwalacz dodanie_klienta
+IF OBJECT_ID('dodano_klienta', 'TR') IS NOT NULL
+	DROP TRIGGER dodano_klienta
 GO
 
-CREATE TRIGGER dodano klienta ON Klienci
+CREATE TRIGGER dodano_klienta ON Klienci
 AFTER INSERT
 AS 
 	DECLARE @Text VARCHAR(256)
@@ -38,12 +38,12 @@ AS
 	PRINT @Text
 GO
 
- --wyzwalacz usuwanie konta
-IF OBJECT_ID('usuniento konto', 'TR') IS NOT NULL
-	DROP TRIGGER usuniento konto
+ --wyzwalacz usuwanie_konta
+IF OBJECT_ID('usuniento_konto', 'TR') IS NOT NULL
+	DROP TRIGGER usuniento_konto
 GO
 
-CREATE TRIGGER usuniento konto ON Klienci
+CREATE TRIGGER usuniento_konto ON Klienci
 AFTER DELETE
 AS 
 	DECLARE @Text VARCHAR(256)
