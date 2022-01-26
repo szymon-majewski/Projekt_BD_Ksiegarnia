@@ -8,7 +8,7 @@ RETURNS TABLE AS
 RETURN (
 
 	SELECT P.Tytul, P.ISBN13, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
-			P.Oprawa, P.Wymiary, P.[Liczba stron], P.Cena, P.Opis
+			P.Oprawa, P.Wymiary, P.[Liczba stron], (P.Cena * (1 - P.Obnizka)) AS Cena, P.Opis
 	FROM [Kategorie ksiazek] K 
 	JOIN Produkty P ON K.[ID kategorii] = P.[ID kategorii]
 	JOIN Autorzy A ON A.[ID Autora] = P.[ID autora]
@@ -33,7 +33,7 @@ RETURNS TABLE AS
 RETURN (
 
 	SELECT P.Tytul, P.ISBN13, CONCAT( O.Imie, ' ', O.Nazwisko ) AS [Autor], P.[Czesc serii], P.Jezyk, P.[Jezyk oryginalu], W.Nazwa AS [Wydawca], P.[Data wydania],
-			P.Oprawa, P.Wymiary, P.[Liczba stron], P.Cena, P.Opis
+			P.Oprawa, P.Wymiary, P.[Liczba stron],(P.Cena * (1 - P.Obnizka)) AS Cena, P.Opis
 	FROM [Serie] S
 	JOIN Produkty P ON S.[ID Serii] = P.[ID serii]
 	JOIN Autorzy A ON A.[ID Autora] = P.[ID autora]
