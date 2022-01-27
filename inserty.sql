@@ -35,7 +35,7 @@ INSERT INTO Osoby (Imie, Nazwisko, Miasto, Ulica, [Nr budynku], [Nr lokalu], [Ko
 ('klient2', 'Lee', NULL, NULL, NULL, NULL, NULL),
 ('klient3', 'Lee', NULL, NULL, NULL, NULL, NULL),
 ('klient4', 'Hipokamp', NULL, NULL, NULL, NULL, NULL),
-('klient5', 'Lee', NULL, NULL, NULL, NULL, NULL),
+('Edwart', 'Nencka', NULL, NULL, NULL, NULL, NULL),
 ('Kazimierz', 'Korfanty', NULL, NULL, NULL, NULL, NULL),
 ('Bazyli', 'Kornik', NULL, NULL, NULL, NULL, NULL),
 ('Katarzyna', 'Tucholska', NULL, NULL, NULL, NULL, NULL),
