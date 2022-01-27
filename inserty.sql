@@ -155,16 +155,12 @@ INSERT INTO Zmiany ([Godzina Rozpoczecia], [Godzina Zakonczenia], Dzien) VALUES
 ('01:00PM','05:30PM', 'nie, swieta'),
 ('05:00PM','12:00AM', 'nie, swieta');
 
---poprawic z sensem (dopisac brakujace dane)
 INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
 ('Specjalista Do Spraw Obslugi Klienta', 'nadwzorowanie pracownikow do spraw obslogi klienta', 'doswiadczenie w zarządzaniu ludźmi'),
 ('Pracownik Obslugi Klienta', 'kontakt z klientami, pomoc w rozwiazaniu problemow', NULL),
 ('Prezes', 'zarzadznie firma' ,'doswiadczenie w zarzadzaniu'),
-('MS SQL Database Administrator', 'zarzadznie baza danych', 'dswiadczenie w zarzadznie baza danych'),
-('Asystent IT', 'zarzadznie baza danych, strona internetowa', 'dswiadczenie w zarzadznie baza danych, strona internetowa');
+('MS SQL Database Administrator', 'zarzadznie baza danych', 'dswiadczenie w zarzadznie baza danych');
 
-
---bullshit dane
 INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pensja) VALUES
 (9, 14, 1, 90000),
 (10, 9, 2, 50000),
@@ -172,10 +168,9 @@ INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pen
 (12, 9, 2, 60000),
 (13, 9, 2, 57000),
 (14, NULL, 3, 120000),
-(15, ),
-(16,),
-(17,),
-(18,);
+(15, 14, 4, 110000),
+(16, 14, 4, 110000),
+(17, 14, 4, 110000);
 
 --bullshit dane
 INSERT INTO Zamowienia ([ID klienta], [Rabat kliencki], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odbioru]) VALUES
@@ -186,7 +181,6 @@ INSERT INTO Zamowienia ([ID klienta], [Rabat kliencki], [Data i czas zamowienia]
 (6, 0.1, '2022-01-12', 2, NULL, 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL),
 (4, 0.1, '2022-01-13', 4, '2022-01-14', NULL, NULL, NULL, NULL, NULL, 1, 1 );
 
---bullshit dane
 INSERT INTO [Szczegoly zamowien] ([ID zamowienia], [ID produktu], Cena, Ilosc, Obnizka) VALUES
 (1, 1, 68, 1, 0.15),
 (1, 2, 63, 1, 0.34),
@@ -205,7 +199,6 @@ INSERT INTO [Historia pensji] ([ID pracownika], [Data zmiany pensji], [Poprzedni
 (9, '2021-05-13', 50000),
 (10, '2021-09-13', 60000),
 (11, '2022-01-13', 90000);
-
 
 INSERT INTO[Historia zatrudnien] ([ID pracownika], [Data zatrudnienia na stanowisku], Stanowisko, [Data zwolnienia]) VALUES
 (9, '2021-05-13', 2, '2022-01-13'),
