@@ -345,11 +345,13 @@ BEGIN
 	--nadanie klientowi kategorii
 	EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = @ID_Klienta --to przejdzie?
 	DECLARE @ID_Kategorii_Klienta INT
+	DECLARE @Rabat_Klienta FLOAT
 	SET @ID_Kategorii_Klienta = ( SELECT [ID Kategorii] FROM Klienci WHERE @ID_Klienta = [ID Klienta] )
+	SET @Rabat_Klienta = ( SELECT Rabat FROM [Klienci Kategorie] WHERE [ID Kategorii] = @ID_Kategorii_Klienta )
 	
 	--dodanie zamowienia
-	INSERT INTO Zamowienia ( [ID klienta], [Data i czas zamowienia], [Status wysylki], [Data wysylki], Miasto,Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda Wysylki], [ID Punktu Odbioru] )
-	VALUES ( @ID_Klienta, GETDATE(), 1, NULL, @Miasto, @Ulica, @Nr_Budynku, @Nr_Lokalu, @Kod_Pocztowy, @Metoda_Wysylki, @ID_Punktu_Odbioru )
+	INSERT INTO Zamowienia ( [ID klienta], [Rabat kliencki], [Data i czas zamowienia], [Status wysylki], [Data wysylki], Miasto,Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda Wysylki], [ID Punktu Odbioru] )
+	VALUES ( @ID_Klienta, @Rabat_Klienta, GETDATE(), 1, NULL, @Miasto, @Ulica, @Nr_Budynku, @Nr_Lokalu, @Kod_Pocztowy, @Metoda_Wysylki, @ID_Punktu_Odbioru )
 	
 	DECLARE @ID INT;
 	SET @ID = ( SELECT MAX( [ID Zamowienia] ) FROM Zamowienia )
@@ -364,10 +366,9 @@ BEGIN
 	
 	WHILE ( @@FETCH_STATUS = 0 )
 	BEGIN
-		INSERT INTO [Szczegoly Zamowien] ( [ID Zamowienia], [ID produktu], Cena, Ilosc, Obnizka ) --co wstawic w cena? cena jest w tabeli Produkty. Chyba ze tu jest cena produktu, która obowiazywala w czasie skladania zamowienia i mogla ulec potem zmianie.
-		--nie wiem czy dobrze rozumiem obnizke jako rabat wynikajacy z kategorii klienta. Jesli nie, to gdzie bedzie trzymany ten rabat z kategorii wyznaczony w trakcie skladania zamowienia?
+		INSERT INTO [Szczegoly Zamowien] ( [ID Zamowienia], [ID produktu], Cena, Ilosc, Obnizka )
 		VALUES ( @ID, @ID_Prod, ( SELECT Cena FROM Produkty WHERE [ID Produktu] = @ID_Prod ), @Liczba,
-		( SELECT Rabat FROM [Klienci Kategorie] WHERE @ID_Kategorii_Klienta = [ID Kategorii] ) )
+		( SELECT Obnizka FROM Produkty WHERE [ID Produktu] = @ID_Prod ) )
 		
 		FETCH NEXT FROM wiersz_zamowienia3 INTO @ID_Prod, @Liczba
 	END
