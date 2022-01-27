@@ -379,3 +379,54 @@ BEGIN
 END
 
 --przykladzior
+
+-------------------------------------------------------------------------------------------------------------
+
+IF OBJECT_ID('dbo.dodaj_urlop','P') IS NOT NULL DROP PROCEDURE dbo.dodaj_urlop
+
+GO
+CREATE PROCEDURE dbo.dodaj_urlop( @ID_Pracownika INT, @ID_Kategorii INT, @Data_Od DATE, @Data_Do DATE ) AS 
+BEGIN
+	DECLARE @blad AS NVARCHAR(100);
+	
+	IF @Data_Od >= @Data_Do
+	BEGIN
+		SET @blad = 'Podano niepoprawne daty. Urlop nie zostal dodany';
+		RAISERROR(@blad, 16, 1);
+		RETURN;
+	END
+	
+	IF EXISTS ( SELECT [ID pracownika] FROM [Grafik Zmian] WHERE ([Data] BETWEEN @Data_Od AND @Data_Do) AND @ID_Pracownika = [ID pracownika] )
+	BEGIN
+		SET @blad = 'Pracownik w podanym okresie ma przypisane zmiany. Urlop nie zostal dodany';
+		RAISERROR(@blad, 16, 1);
+		RETURN;
+	END
+	
+	IF EXISTS ( SELECT [ID pracownika] FROM [Grafik Zmian] WHERE @ID_Pracownika = [ID pracownika] AND
+				( ( @Data_Od <= [Data do] AND [Data od] <= @Data_Od ) OR
+				  ( @Data_Do <= [Data do] AND [Data od] <= @Data_Do ) )
+			  )
+	BEGIN
+		SET @blad = 'Pracownik ma juz urlop w podanym terminie. Urlop nie zostal dodany';
+		RAISERROR(@blad, 16, 1);
+		RETURN;
+	END
+	
+	DECLARE @Ilosc_Dni INT
+	SET @Ilosc_Dni = DATEDIFF( day, @Data_Od, @Data_Do )
+	
+	--na lenia
+	IF @Ilosc_Dni > ( SELECT [Dopuszczalna Ilosc Dni] FROM [Urlopy Kategorie] WHERE [ID Kategorii] = @ID_Kategorii )
+	BEGIN
+		SET @blad = 'Przekroczono maksymalna ilosc dni w tej kategorii urlopu. Urlop nie zostal dodany';
+		RAISERROR(@blad, 16, 1);
+		RETURN;
+	END
+	
+	INSERT INTO Urlopy ( [ID pracownika], [ID kategorii], [Data od], [Data do] )
+	VALUES ( @ID_Pracownika, @ID_Kategorii, @Data_Od, @Data_Do )
+	
+END
+
+--przyklad
