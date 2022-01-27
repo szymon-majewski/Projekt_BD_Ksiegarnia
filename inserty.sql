@@ -34,13 +34,18 @@ INSERT INTO Osoby (Imie, Nazwisko, Miasto, Ulica, [Nr budynku], [Nr lokalu], [Ko
 ('klient1', 'Lee', NULL, NULL, NULL, NULL, NULL),
 ('klient2', 'Lee', NULL, NULL, NULL, NULL, NULL),
 ('klient3', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('klient4', 'Lee', NULL, NULL, NULL, NULL, NULL),
+('klient4', 'Hipokamp', NULL, NULL, NULL, NULL, NULL),
 ('klient5', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('pracownik1', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('pracownik2', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('pracownik3', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('pracownik4', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('pracownik5', 'Lee', NULL, NULL, NULL, NULL, NULL);
+('Kazimierz', 'Korfanty', NULL, NULL, NULL, NULL, NULL),
+('Bazyli', 'Kornik', NULL, NULL, NULL, NULL, NULL),
+('Katarzyna', 'Tucholska', NULL, NULL, NULL, NULL, NULL),
+('Julia', 'Kot', NULL, NULL, NULL, NULL, NULL),
+('Beata', 'Beddinge', NULL, NULL, NULL, NULL, NULL),
+('Matylda', 'Krakers', NULL, NULL, NULL, NULL, NULL),
+('Faustyna', 'Dzik', NULL, NULL, NULL, NULL, NULL),
+('Beata', 'Trebel', NULL, NULL, NULL, NULL, NULL),
+('Pawel', 'Kaczor', NULL, NULL, NULL, NULL, NULL),
+('pracownik10', 'Lee', NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Autorzy ([ID Autora], [Data urodzenia]) VALUES
 (1, '1979-03-10'),
@@ -155,17 +160,22 @@ INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
 ('Specjalista Do Spraw Obslugi Klienta', 'nadwzorowanie pracownikow do spraw obslogi klienta', 'doswiadczenie w zarządzaniu ludźmi'),
 ('Pracownik Obslugi Klienta', 'kontakt z klientami, pomoc w rozwiazaniu problemow', NULL),
 ('Prezes', 'zarzadznie firma' ,'doswiadczenie w zarzadzaniu'),
-('Ekspert IT', 'zarzadznie baza danych, systemem, bla bla bla...', 'dswiadczenie w ...'),
-('Dyrektor do spraw komunikacji','',''),
-('Asystent ds technicznych', '', '');
+('MS SQL Database Administrator', 'zarzadznie baza danych', 'dswiadczenie w zarzadznie baza danych'),
+('Asystent IT', 'zarzadznie baza danych, strona internetowa', 'dswiadczenie w zarzadznie baza danych, strona internetowa');
+
 
 --bullshit dane
 INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pensja) VALUES
-(9, NULL, 1, 90000),
+(9, 14, 1, 90000),
 (10, 9, 2, 50000),
-(11, 9, 2, 50000),
+(11, 9, 2, 45000),
 (12, 9, 2, 60000),
-(13, 9, 2, 50000);
+(13, 9, 2, 57000),
+(14, NULL, 3, 120000),
+(15, ),
+(16,),
+(17,),
+(18,);
 
 --bullshit dane
 INSERT INTO Zamowienia ([ID klienta], [Rabat kliencki], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odbioru]) VALUES
@@ -186,7 +196,6 @@ INSERT INTO [Szczegoly zamowien] ([ID zamowienia], [ID produktu], Cena, Ilosc, O
 (3, 2, 63, 7, 0.34),
 (4, 1, 68, 1, 0.15),
 (4, 2, 63, 1, 0.34);
-
 
 INSERT INTO Urlopy ([ID pracownika], [ID kategorii], [Data od], [Data do]) VALUES
 (9, 2, '2022-01-01', '2022-01-18'),
