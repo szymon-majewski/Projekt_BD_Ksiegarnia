@@ -50,3 +50,37 @@ AS
 	SET @Text = FORMATMESSAGE('Konto zostalo usuniete pomyslnie')
 	PRINT @Text
 GO
+
+------------------------------------------------------------------------------------------
+
+IF OBJECT_ID('zmieniono_status_zamowienia', 'TR') IS NOT NULL
+	DROP TRIGGER zmieniono_status_zamowienia
+GO
+
+CREATE TRIGGER zmieniono_status_zamowienia ON Zamowienia
+AFTER UPDATE
+AS 
+	DECLARE @Text VARCHAR(256)
+	
+	IF UPDATE( [Status wysylki] )
+	BEGIN
+		IF [Status wysylki] = 1
+		BEGIN
+			SET @Text = FORMATMESSAGE('Zamowienie przyjete do realizacji')
+		END
+		IF [Status wysylki] = 
+		BEGIN
+			SET @Text = FORMATMESSAGE('Zamowienie zostalo oplacone')
+		END
+		IF [Status wysylki] = 
+		BEGIN
+			SET @Text = FORMATMESSAGE('Zamowienie oczekuje na wysylke')
+		END
+		IF [Status wysylki] = 
+		BEGIN
+			SET @Text = FORMATMESSAGE('Zamowienie zostalo wyslane')
+		END
+	END
+	
+	PRINT @Text
+GO
