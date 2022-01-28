@@ -430,3 +430,56 @@ BEGIN
 END
 
 --przyklad
+
+---------------------------
+IF OBJECT_ID ('dodaj_ksiazke') IS NOT NULL
+DROP PROCEDURE dodaj_ksiazke;
+
+ --procedura dodania ksiazki (produktu)
+ --procedura nie moze dodac nowej katergii ani nowego wydawcy ani nowego autora ani nowej serii
+GO
+CREATE PROCEDURE dodaj_ksiazke( @ISBN13 BIGINT = NULL, @tytul NVARCHAR(50) = NULL, @id_kategorii INT = NULL, @id_autora INT = NULL, @id_serii INT = NULL, 
+@czesc_serii INT = NULL, @jezyk NVARCHAR(50) = NULL, @jezyk_og NVARCHAR(50) = NULL, @id_wydawca INT = NULL, @data_wydania DATE = NULL, @oprawa NVARCHAR(50) = NULL, 
+@wymiary NVARCHAR(50) = NULL, @liczba_stron INT = NULL, @wmagazynie INT = NULL, @cena SMALLMONEY = NULL, @obnizka REAL = NULL,  @opis NVARCHAR(1000) = NULL)
+AS
+ 
+DECLARE @blad AS NVARCHAR(500);
+ 
+ -- tu wszytskie wymagania
+
+IF @ISBN13 IS NULL OR @tytul IS NULL OR @id_autora IS NULL OR @id_kategorii IS NULL OR @jezyk IS NULL OR  @id_wydawca IS NULL 
+OR @data_wydania IS NULL OR @oprawa IS NULL OR @wymiary IS NULL OR @liczba_stron IS NULL OR @wmagazynie IS NULL OR @cena IS NULL OR @obnizka IS NULL
+	BEGIN
+		SET @blad = 'Błędne dane, sprawdź podane argumenty.';
+		RAISERROR(@blad, 16,1);
+		RETURN;
+	END
+
+IF @ISBN13 IN (SELECT ISBN13 FROM Produkty) 
+	BEGIN
+		SET @blad = 'Błędny ISBN13. Ksiazka o podanym ISBN13 jest juz w bazie.';
+		RAISERROR(@blad, 16,1);
+		RETURN;
+	END
+
+INSERT INTO Produkty(ISBN13, [ID kategorii],  Tytul, [ID autora], [ID serii], [Czesc serii],
+Jezyk, [Jezyk oryginalu],  [ID wydawcy], [Data wydania], [Oprawa], Wymiary, [Liczba stron],
+[Ilosc w magazynie], Cena, Obnizka, Opis)
+
+VALUES (@ISBN13, @id_kategorii,  @tytul, @id_autora, @id_serii, @czesc_serii, @jezyk, @jezyk_og, @id_wydawca,
+@data_wydania, @oprawa, @wymiary, @liczba_stron, @wmagazynie, @cena, @obnizka, @opis)
+
+IF @id_serii IS NOT NULL
+	BEGIN
+		DECLARE @Stara_ilosc AS INT;
+		SET @Stara_ilosc = (SELECT [Ilosc Czesci Wydanych] FROM Serie WHERE [ID Serii] = @id_serii)
+		UPDATE Serie
+		SET [Ilosc Czesci Wydanych] = @Stara_ilosc + 1
+		WHERE [ID Serii] = @id_serii
+	END
+GO
+
+-- przykladowe wywolanie
+EXEC dodaj_ksiazke @ISBN13 =  97819313638, @id_kategorii = 1, @tytul = 'tgbn4', @id_autora = 1, @id_serii = 1, @czesc_serii = 4, @jezyk = 'angielski', @jezyk_og = 'angielski', @id_wydawca = 1,
+@data_wydania = '2022-01-13', @oprawa = 'miekka', @wymiary = '10 x 20', @liczba_stron = 674, @wmagazynie =43, @cena = 100, @obnizka = 0.02, @opis = 'dfxbgvd'
+GO
