@@ -444,8 +444,6 @@ CREATE PROCEDURE dodaj_ksiazke( @ISBN13 BIGINT = NULL, @tytul NVARCHAR(50) = NUL
 AS
  
 DECLARE @blad AS NVARCHAR(500);
- 
- -- tu wszytskie wymagania
 
 IF @ISBN13 IS NULL OR @tytul IS NULL OR @id_autora IS NULL OR @id_kategorii IS NULL OR @jezyk IS NULL OR  @id_wydawca IS NULL 
 OR @data_wydania IS NULL OR @oprawa IS NULL OR @wymiary IS NULL OR @liczba_stron IS NULL OR @wmagazynie IS NULL OR @cena IS NULL OR @obnizka IS NULL
