@@ -60,7 +60,7 @@ Nazwa NVARCHAR(50) UNIQUE NOT NULL,
 --Stworzenie tabeli Serie
 CREATE TABLE Serie (
 [ID Serii] INT IDENTITY(1, 1) PRIMARY KEY,
-Nazwa NVARCHAR(300) UNIQUE NOT NULL,
+Nazwa NVARCHAR(300) NOT NULL,
 [ID Autora] INT NOT NULL,
 [Ilosc Czesci Planowana] INT,
 [Ilosc Czesci Wydanych] INT NOT NULL,
