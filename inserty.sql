@@ -10,7 +10,6 @@ INSERT INTO [Klienci Kategorie] ( Nazwa, [Minimalne Miesieczne Zakupy], [Maksyma
 ('Ksiazkoholik', 700, 1000, 0.2),
 ('Psychofan', 1000, 1500, 0.35);
 
-
 INSERT INTO [Urlopy Kategorie] (Nazwa, [Dopuszczalna Ilosc Dni], Opis) VALUES
 ('Urlop wypoczynkowy',31,'celem urlopu jest wypoczynek pracownika i regeneracja utraconych przez niego sil'),
 ('Urlop okolicznosciowy',100,'celem urlopu jest zalatwienie spraw osobistych pracownika, odpowiadajacych okreslonym okolicznosciom wskazanym w k.p.'),
@@ -31,10 +30,9 @@ INSERT INTO Osoby (Imie, Nazwisko, Miasto, Ulica, [Nr budynku], [Nr lokalu], [Ko
 ('Fonda', 'Lee', NULL, NULL, NULL, NULL, NULL),
 ('Pascal', 'Garnier', NULL, NULL, NULL, NULL, NULL),
 ('Robert', 'Wegner', NULL, NULL, NULL, NULL, NULL),
-('klient1', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('klient2', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('klient3', 'Lee', NULL, NULL, NULL, NULL, NULL),
-('klient4', 'Hipokamp', NULL, NULL, NULL, NULL, NULL),
+('Alfons', 'Kerdinger', NULL, NULL, NULL, NULL, NULL),
+('Aleksandra', 'Kughn', NULL, NULL, NULL, NULL, NULL),
+('Eugenia', 'Hipokamp', NULL, NULL, NULL, NULL, NULL),
 ('Edwart', 'Nencka', NULL, NULL, NULL, NULL, NULL),
 ('Kazimierz', 'Korfanty', NULL, NULL, NULL, NULL, NULL),
 ('Bazyli', 'Kornik', NULL, NULL, NULL, NULL, NULL),
@@ -44,8 +42,7 @@ INSERT INTO Osoby (Imie, Nazwisko, Miasto, Ulica, [Nr budynku], [Nr lokalu], [Ko
 ('Matylda', 'Krakers', NULL, NULL, NULL, NULL, NULL),
 ('Faustyna', 'Dzik', NULL, NULL, NULL, NULL, NULL),
 ('Beata', 'Trebel', NULL, NULL, NULL, NULL, NULL),
-('Pawel', 'Kaczor', NULL, NULL, NULL, NULL, NULL),
-('pracownik10', 'Lee', NULL, NULL, NULL, NULL, NULL);
+('Pawel', 'Kaczor', NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Autorzy ([ID Autora], [Data urodzenia]) VALUES
 (1, '1979-03-10'),
@@ -110,13 +107,11 @@ Magia wielkiej dali ciazy w jego umysle podskorna obietnica nowego poczatku dla 
 serdecznego, nieco naiwnego chlopaka o lagodnym spojrzeniu i dobrym sercu. Bernard nigdy nie byl nad morzem, a Simon potrzebuje kierowcy. Moze przez kaprys, moze przez rzeczywista sympatie do czlowieka,
  ktory tak rozni sie od niego, Simon proponuje Bernardowi prace.');
 
- --bullshit dane
-INSERT INTO [Firmy Wysylkowe] ([Nazwa Firmy], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], Telefon, [E-mail], [Imie przedstawiciela], [Nazwisko przedstawiciela], [Telefon przedstawiciela], [E-mail przedstawiciela]) VALUES
-('Paczuchy', 'Kraków', 'Lal', '15', NULL, '11-171', 123456789, 'paczuch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' ),
-('xx', 'Kraków', 'Lal', '15', NULL, '11-171', 123456789, 'paczxch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' ),
-('Paczuchyx', 'Kraków', 'Lal', '15', NULL, '11-171', 123456789, 'paczuwqch@paczuchy.pl', 'Anna', 'Kgsysjd', 123456123, 'skjch@cs.pl' );
+INSERT INTO [Firmy Wysylkowe] ([Nazwa Firmy], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], Telefon, [E-mail]) VALUES
+('Paczuchy', 'Kraków', 'Lal', '15', NULL, '11-171', 123456789, 'paczuch@paczuchy.pl'),
+('xx', 'Kraków', 'Lal', '15', NULL, '11-171', 123456789, 'paczxch@paczuchy.pl'),
+('Paczuchyx', 'Kraków', 'Lal', '15', NULL, '11-171', 123456789, 'paczuwqch@paczuchy.pl');
 
---bullshit dane
 INSERT INTO [Punkty Odbioru] (Nazwa, Miasto, Ulica, [Nr budynku], [Kod pocztowy], [Czynny od], [Czynny do], [ID Firmy]) VALUES
 ('A', 'Kraków', 'Lal', '15', '11-171', '08:00:00', '17:00:00', 1),
 ('AA', 'Kraków', 'Lal', '15', '11-171', '10:00:00', '20:00:00', 1),
@@ -124,14 +119,12 @@ INSERT INTO [Punkty Odbioru] (Nazwa, Miasto, Ulica, [Nr budynku], [Kod pocztowy]
 ('AB', 'Kraków', 'Lal', '15', '11-171', '10:00:00', '20:00:00', 2),
 ('AAB', 'Kraków', 'Lal', '15', '11-171', '10:00:00', '20:00:00', 3);
 
---bullshit dane
 INSERT INTO [Opcje Wysylki] ([ID Firmy], Typ, Cena) VALUES
 (1, 'punkt odbioru', 7),
 (2, 'punkt odbioru', 9),
 (3, 'punkt odbioru', 8),
 (3, 'kurier', 15);
 
---bullshit dane
 INSERT INTO Klienci ([ID Klienta], [ID Kategorii], [Nazwa Konta], [Haslo Do Konta], Telefon, [E-mail]) VALUES
 (4, 1, 'wa', 'weodhdowdih', 123123123, 'sada@ssa.pl'),
 (5, 2, 'ad', 'sefzaqqa', 123123123, 'sada@ssa.pl'),
@@ -159,7 +152,7 @@ INSERT INTO Stanowiska (Nazwa, Obowiazki, Kwalifikacje) VALUES
 ('Specjalista Do Spraw Obslugi Klienta', 'nadwzorowanie pracownikow do spraw obslogi klienta', 'doswiadczenie w zarządzaniu ludźmi'),
 ('Pracownik Obslugi Klienta', 'kontakt z klientami, pomoc w rozwiazaniu problemow', NULL),
 ('Prezes', 'zarzadznie firma' ,'doswiadczenie w zarzadzaniu'),
-('MS SQL Database Administrator', 'zarzadznie baza danych', 'dswiadczenie w zarzadznie baza danych');
+('MS SQL Database Administrator', 'zarzadzanie baza danych', 'doswiadczenie w zarzadzaniu baza danych');
 
 INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pensja) VALUES
 (9, 14, 1, 90000),
@@ -169,10 +162,8 @@ INSERT INTO Pracownicy ([ID pracownika], [ID przelozonego], [ID stanowiska], Pen
 (13, 9, 2, 57000),
 (14, NULL, 3, 120000),
 (15, 14, 4, 110000),
-(16, 14, 4, 110000),
-(17, 14, 4, 110000);
+(16, 14, 4, 110000);
 
---bullshit dane
 INSERT INTO Zamowienia ([ID klienta], [Rabat kliencki], [Data i czas zamowienia], [Status Wysylki], [Data wysylki], Miasto, Ulica, [Nr budynku], [Nr lokalu], [Kod pocztowy], [Metoda wysylki], [ID punktu odbioru]) VALUES
 (4, 0.1, '2022-01-12', 4, '2022-01-14', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
 (5, 0.05, '2022-01-10', 4, '2022-01-12', 'Kraków', 'Lal', '15', NULL, '11-171', 4, NULL ),
@@ -204,7 +195,6 @@ INSERT INTO[Historia zatrudnien] ([ID pracownika], [Data zatrudnienia na stanowi
 (9, '2021-05-13', 2, '2022-01-13'),
 (10, '2022-01-13', 1, NULL);
 
---wymyslic WHATEVER 
 INSERT INTO [Grafik Zmian] ([ID Zmiany], [ID Pracownika], [Data]) VALUES
 (1, 9, '2022-01-13'),
 (1, 10, '2022-01-13'),
@@ -217,9 +207,13 @@ INSERT INTO [Grafik Zmian] ([ID Zmiany], [ID Pracownika], [Data]) VALUES
 (3, 12, '2022-01-14'),
 (4, 13, '2022-01-14');
 
---dane wyciagane bezposrednio z tabeli pracownicy pomijajc ilosc potrzenych pracownkow 
 INSERT INTO [Zapotrzebowanie Na Pracownikow] ([ID Stanowiska], [Ilosc Potrzebnych Pracownikow], [Ilosc Zatrudnionych Pracownikow]) VALUES
 (2, 10, 4),
-(1, 1, 1);
+(1, 2, 1),
+(3, 1, 1),
+(4, 4, 2);
 
 --INSERT INTO [Opinie Klientow] ([ID Produktu], [ID Klienta], Data, Tresc, Ocena) VALUES
+(1, 4, '2022-01-14', 'super ksiazka', 5),
+(2, 5, '2022-01-14', 'super ksiazka', 5),
+(4, 6, '2022-01-14', 'super ksiazka', 5);
