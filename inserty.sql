@@ -213,7 +213,7 @@ INSERT INTO [Zapotrzebowanie Na Pracownikow] ([ID Stanowiska], [Ilosc Potrzebnyc
 (3, 1, 1),
 (4, 4, 2);
 
---INSERT INTO [Opinie Klientow] ([ID Produktu], [ID Klienta], Data, Tresc, Ocena) VALUES
+INSERT INTO [Opinie Klientow] ([ID Produktu], [ID Klienta], Data, Tresc, Ocena) VALUES
 (1, 4, '2022-01-14', 'super ksiazka', 5),
 (2, 5, '2022-01-14', 'super ksiazka', 5),
 (4, 6, '2022-01-14', 'super ksiazka', 5);
