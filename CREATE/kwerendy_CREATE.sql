@@ -21,10 +21,6 @@ Ulica NVARCHAR(50) NOT NULL,
 [Kod pocztowy] NVARCHAR(10) NOT NULL,
 Telefon INT,
 [E-mail] NVARCHAR(255) UNIQUE NOT NULL,
-[Imie przedstawiciela] NVARCHAR(50) NOT NULL,
-[Nazwisko przedstawiciela] NVARCHAR(50) NOT NULL,
-[Telefon przedstawiciela] INT,
-[E-mail przedstawiciela] NVARCHAR(255) NOT NULL,
 );
 
 --Stworzenie tabeli Autorzy
