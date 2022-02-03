@@ -230,7 +230,7 @@ GO
 CREATE PROCEDURE dbo.przypisz_klientowi_kategorie ( @ID_Klienta INT ) AS
 BEGIN
 	DECLARE @wydatki_w_ostatnim_miesiacu INT
-	SET @wydatki_w_ostatnim_miesiacu = ( SELECT * FROM miesieczne_wydatki_klienta( @ID_Klienta ) )
+	SET @wydatki_w_ostatnim_miesiacu = ( SELECT dbo.miesieczne_wydatki_klienta( @ID_Klienta ) )
 	
 	DECLARE @Ilosc_Kategorii INT
 	SET @Ilosc_Kategorii = ( SELECT COUNT( [ID kategorii] ) FROM [Klienci Kategorie] )
