@@ -108,8 +108,9 @@ IF OBJECT_ID('pracownicy_na_zmianie', 'FN') IS NOT NULL DROP FUNCTION pracownicy
 
 GO
 CREATE FUNCTION pracownicy_na_zmianie( @ID_Zmiany INT, @Data DATE ) RETURNS TABLE AS RETURN (
-	SELECT P.[ID Pracownika], P.Imie, P.Nazwisko FROM [Grafik Zmian] AS G
+	SELECT P.[ID Pracownika], O.Imie, O.Nazwisko FROM [Grafik Zmian] AS G
 	JOIN Pracownicy AS P ON P.[ID Pracownika] = G.[ID Pracownika]
+	JOIN Osoby AS O ON P.[ID Pracownika] = O.[ID Osoby]
 	WHERE @ID_Zmiany = G.[ID Zmiany] AND @Data = G.Data
 )
 
