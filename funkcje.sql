@@ -126,7 +126,6 @@ CREATE FUNCTION miesieczne_wydatki_klienta( @ID_Klienta INT ) RETURNS MONEY AS
 BEGIN
 	DECLARE @Wydatki MONEY
 	
-	-- przy wyliczaniu wydatkow uwzgledniac rabat nadany w ramach kategorii klienta? (kategoria mogla sie zmienic w trakcie miesiaca) Jesli tak to jak? Moze po prostu tu sumowac cene bazowa ksiazek w zamowieniu i na tej podstawie potem wyznaczac kategorie klienta, bo im wyzsza kategoria, tym mniej sprawiedliwe jest wbijanie kolejnej
 	SET @Wydatki = ( SELECT SUM(ROUND(SZ.Ilosc * CAST((SZ.Cena * SZ.obnizka) AS MONEY ), 2)) FROM Zamowienia AS Z
 					 JOIN [Szczegoly Zamowien] AS SZ ON Z.[ID zamowienia] = SZ.[ID zamowienia]
 					 WHERE @ID_Klienta = Z.[ID klienta] AND DATEDIFF( month, GETDATE(), Z.[Data i czas zamowienia]) <= 1
@@ -146,7 +145,7 @@ CREATE FUNCTION historia_zatrudnien_na_stanowisku( @ID_Stanowiska INT ) RETURNS 
 	HZ.[Data zatrudnienia na stanowisku] AS [Data zatrudnienia], HZ.[Data zwolnienia] FROM [Historia Zatrudnien] AS HZ
 	JOIN Pracownicy AS P ON P.[ID Pracownika] = HZ.[ID Pracownika]
 	JOIN Osoby AS O ON P.[ID Pracownika] = O.[ID Osoby]
-	WHERE @ID_Stanowiska = HZ.[Stanowisko] -- dlaczego w create tu nie ma foreign key do tabeli stanowiska?
+	WHERE @ID_Stanowiska = HZ.[Stanowisko]
 )
 
 GO
