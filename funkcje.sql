@@ -142,12 +142,12 @@ IF OBJECT_ID('historia_zatrudnien_na_stanowisku', 'FN') IS NOT NULL DROP FUNCTIO
 
 GO
 CREATE FUNCTION historia_zatrudnien_na_stanowisku( @ID_Stanowiska INT ) RETURNS TABLE AS RETURN (
-	SELECT P.[ID Pracownika], P.Imie, P.Nazwisko,
+	SELECT P.[ID Pracownika], O.Imie, O.Nazwisko,
 	HZ.[Data zatrudnienia na stanowisku] AS [Data zatrudnienia], HZ.[Data zwolnienia] FROM [Historia Zatrudnien] AS HZ
 	JOIN Pracownicy AS P ON P.[ID Pracownika] = HZ.[ID Pracownika]
+	JOIN Osoby AS O ON P.[ID Pracownika] = O.[ID Osoby]
 	WHERE @ID_Stanowiska = HZ.[Stanowisko] -- dlaczego w create tu nie ma foreign key do tabeli stanowiska?
 )
 
 GO
-SELECT * FROM historia_zatrudnien_na_stanowisku( 1 )
-
+SELECT dbo.historia_zatrudnien_na_stanowisku( 1 )
