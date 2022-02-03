@@ -3,4 +3,4 @@ USE master
 IF EXISTS( SELECT * FROM sys.databases WHERE name = 'Ksiegarnia Internetowa' )
 DROP DATABASE [Ksiegarnia Internetowa]
 -- Stworzenie bazy danych
-CREATE DATABASE [Ksiegarnia Internetowa];
+CREATE DATABASE [Ksiegarnia Internetowa]; 
