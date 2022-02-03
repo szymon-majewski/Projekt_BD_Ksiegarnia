@@ -281,7 +281,7 @@ BEGIN
 	DECLARE @blad AS NVARCHAR(100);
 	
 	-- zamowienie puste
-	IF EXISTS ( SELECT COUNT(ID_Produktu) FROM @pozycje_zamowienia )
+	IF NOT EXISTS ( SELECT ID_Produktu FROM @pozycje_zamowienia )
 	BEGIN
 		SET @blad = 'Koszyk pusty. Zamowienie nie zostalo zlozone';
 		RAISERROR(@blad, 16, 1);
