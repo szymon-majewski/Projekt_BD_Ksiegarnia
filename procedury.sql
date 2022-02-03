@@ -416,7 +416,6 @@ BEGIN
 	DECLARE @Ilosc_Dni INT
 	SET @Ilosc_Dni = DATEDIFF( day, @Data_Od, @Data_Do )
 	
-	--na lenia
 	IF @Ilosc_Dni > ( SELECT [Dopuszczalna Ilosc Dni] FROM [Urlopy Kategorie] WHERE [ID Kategorii] = @ID_Kategorii )
 	BEGIN
 		SET @blad = 'Przekroczono maksymalna ilosc dni w tej kategorii urlopu. Urlop nie zostal dodany';
