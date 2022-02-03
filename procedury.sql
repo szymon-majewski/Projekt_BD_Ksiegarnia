@@ -429,7 +429,14 @@ BEGIN
 	
 END
 
---przyklad
+SELECT * FROM Urlopy
+EXECUTE dbo.dodaj_urlop @ID_Pracownika = 10, @ID_Kategorii = 1, @Data_Od = '2022-01-17', @Data_Do = '2022-01-22'
+SELECT * FROM Urlopy
+EXECUTE dbo.dodaj_urlop @ID_Pracownika = 10, @ID_Kategorii = 1, @Data_Od = '2022-01-19', @Data_Do = '2022-01-20'
+EXECUTE dbo.dodaj_urlop @ID_Pracownika = 10, @ID_Kategorii = 1, @Data_Od = '2022-02-19', @Data_Do = '2024-01-20'
+EXECUTE dbo.dodaj_urlop @ID_Pracownika = 10, @ID_Kategorii = 1, @Data_Od = '2022-02-13', @Data_Do = '2022-01-14'
+EXECUTE dbo.dodaj_urlop @ID_Pracownika = 10, @ID_Kategorii = 1, @Data_Od = '2022-01-13', @Data_Do = '2022-01-14'
+
 
 ---------------------------
 IF OBJECT_ID ('dodaj_ksiazke') IS NOT NULL
