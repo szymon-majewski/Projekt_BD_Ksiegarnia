@@ -274,12 +274,12 @@ IF OBJECT_ID('dbo.zloz_zamowienie','P') IS NOT NULL DROP PROCEDURE dbo.zloz_zamo
 
 GO
 CREATE PROCEDURE dbo.zloz_zamowienie ( @pozycje_zamowienia Pozycje_Zamowienia_TYP READONLY, @ID_Klienta INT,
-@Miasto NVARCHAR(50) = NULL, @Ulica NVARCHAR(50) = NULL, @Nr_Budynku = NULL, @Nr_Lokalu = NULL, @Kod_Pocztowy = NULL, @Metoda_Wysylki = NULL, @ID_Punktu_Odbioru = NULL ) AS
+@Miasto NVARCHAR(50) = NULL, @Ulica NVARCHAR(50) = NULL, @Nr_Budynku INT = NULL, @Nr_Lokalu INT = NULL, @Kod_Pocztowy NVARCHAR(10) = NULL, @Metoda_Wysylki INT = NULL, @ID_Punktu_Odbioru INT = NULL ) AS
 BEGIN
 	DECLARE @blad AS NVARCHAR(100);
 	
 	-- zamowienie puste
-	IF ( SELECT COUNT(ID_Produktu) FROM @pozycje_zamowienia ) = 0
+	IF EXISTS ( SELECT COUNT(ID_Produktu) FROM @pozycje_zamowienia )
 	BEGIN
 		SET @blad = 'Koszyk pusty. Zamowienie nie zostalo zlozone';
 		RAISERROR(@blad, 16, 1);
