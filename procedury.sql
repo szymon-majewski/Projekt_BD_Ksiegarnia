@@ -181,14 +181,14 @@ BEGIN
 		RETURN;
 	END
 	
-	IF @ID_Przelozonego NOT IN ( SELECT ID_Pracownika FROM Pracownicy ) AND @ID_Przelozonego IS NOT NULL
+	IF @ID_Przelozonego NOT IN ( SELECT [ID Pracownika] FROM Pracownicy ) AND @ID_Przelozonego IS NOT NULL
 	BEGIN
 		SET @blad = 'Podano bledne ID przelozonego. Dodanie pracownika nie powiodlo sie';
 		RAISERROR(@blad, 16, 1);
 		RETURN;
 	END
 	
-	IF @ID_Stanowiska NOT IN ( SELECT ID_Stanowiska FROM Stanowiska )
+	IF @ID_Stanowiska NOT IN ( SELECT [ID Stanowiska] FROM Stanowiska )
 	BEGIN
 		SET @blad = 'Podano bledne ID stanowiska. Dodanie pracownika nie powiodlo sie';
 		RAISERROR(@blad, 16, 1);
@@ -220,7 +220,7 @@ END
 
 GO
 
-EXECUTE dodaj_pracownika @Imie = 'Szymon', @Nazwisko = 'Majewski', @Miasto = 'Kraków', @Ulica = 'Focha', @Budynek = '123', @Kod = '30-111', @ID_Przelozonego = NULL, @ID_Stanowiska = 1, @Pensja = 20000.00
+EXECUTE dodaj_pracownika @Imie = 'Szymon', @Nazwisko = 'Majewski', @Miasto = 'Kraków', @Ulica = 'Focha', @Budynek = '123', @Kod_Pocztowy = '30-111', @ID_Przelozonego = NULL, @ID_Stanowiska = 1, @Pensja = 20000.00
 		
 -------------------------------------------------------------------------------------------------------------
 
