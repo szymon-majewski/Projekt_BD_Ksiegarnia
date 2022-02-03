@@ -121,7 +121,7 @@ SELECT * FROM pracownicy_na_zmianie(1, '2022-01-13')
 IF OBJECT_ID('miesieczne_wydatki_klienta', 'FN') IS NOT NULL DROP FUNCTION miesieczne_wydatki_klienta
 
 GO
-CREATE FUNCTION miesieczne_wydatki_klienta( @ID_Klienta INT ) RETURN MONEY AS
+CREATE FUNCTION miesieczne_wydatki_klienta( @ID_Klienta INT ) RETURNS MONEY AS
 BEGIN
 	DECLARE @Wydatki MONEY
 	
@@ -133,7 +133,7 @@ BEGIN
 	RETURN @Wydatki
 END
 
-SELECT * FROM miesieczne_wydatki_klienta( 4 )
+SELECT dbo.miesieczne_wydatki_klienta( 4 )
 
 --------------------------------------------------------------------------------------------------
 
