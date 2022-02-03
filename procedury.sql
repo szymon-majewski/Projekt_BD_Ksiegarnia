@@ -403,7 +403,7 @@ BEGIN
 		RETURN;
 	END
 	
-	IF EXISTS ( SELECT [ID pracownika] FROM [Grafik Zmian] WHERE @ID_Pracownika = [ID pracownika] AND
+	IF EXISTS ( SELECT [ID pracownika] FROM Urlopy WHERE @ID_Pracownika = [ID pracownika] AND
 				( ( @Data_Od <= [Data do] AND [Data od] <= @Data_Od ) OR
 				  ( @Data_Do <= [Data do] AND [Data od] <= @Data_Do ) )
 			  )
