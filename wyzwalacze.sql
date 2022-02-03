@@ -64,19 +64,19 @@ AS
 	
 	IF UPDATE( [Status wysylki] )
 	BEGIN
-		IF [Status wysylki] = 1
+		IF ( SELECT [Status wysylki] FROM Inserted ) = 1
 		BEGIN
 			SET @Text = FORMATMESSAGE('Zamowienie przyjete do realizacji')
 		END
-		IF [Status wysylki] = 
+		IF ( SELECT [Status wysylki] FROM Inserted ) = 2
 		BEGIN
 			SET @Text = FORMATMESSAGE('Zamowienie zostalo oplacone')
 		END
-		IF [Status wysylki] = 
+		IF ( SELECT [Status wysylki] FROM Inserted ) = 3
 		BEGIN
 			SET @Text = FORMATMESSAGE('Zamowienie oczekuje na wysylke')
 		END
-		IF [Status wysylki] = 
+		IF ( SELECT [Status wysylki] FROM Inserted ) = 4
 		BEGIN
 			SET @Text = FORMATMESSAGE('Zamowienie zostalo wyslane')
 		END
