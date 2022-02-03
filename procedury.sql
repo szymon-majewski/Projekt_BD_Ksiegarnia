@@ -265,6 +265,8 @@ EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = 4
 
 -------------------------------------------------------------------------------------------------------------
 
+IF TYPE_ID('Pozycje_Zamowienia_TYP') IS NOT NULL DROP TYPE Pozycje_Zamowienia_TYP
+
 CREATE TYPE Pozycje_Zamowienia_TYP AS TABLE (
 	ID_Produktu INT,
 	Ilosc INT
@@ -378,7 +380,15 @@ BEGIN
 	
 END
 
---przykladzior
+DECLARE @Koszyk Pozycje_Zamowienia_TYP
+INSERT INTO @Koszyk VALUES
+( 1, 2 ),
+( 2, 1 ),
+( 3, 1 )
+
+SELECT * FROM Zamowienia
+EXECUTE dbo.zloz_zamowienie @pozycje_zamowienia = @Koszyk, @ID_Klienta = 4, @Metoda_Wysylki = 1, @ID_Punktu_Odbioru = 1
+SELECT * FROM Zamowienia
 
 -------------------------------------------------------------------------------------------------------------
 
