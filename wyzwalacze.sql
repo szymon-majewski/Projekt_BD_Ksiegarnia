@@ -84,3 +84,9 @@ AS
 	
 	PRINT @Text
 GO
+
+SELECT * FROM Zamowienia
+
+UPDATE Zamowienia
+SET [Status wysylki] = [Status wysylki] + 1
+WHERE [ID Zamowienia] = 5
