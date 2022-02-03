@@ -345,7 +345,7 @@ BEGIN
 	DEALLOCATE wiersz_zamowienia2
 	
 	--nadanie klientowi kategorii
-	EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = @ID_Klienta --to przejdzie?
+	EXECUTE dbo.przypisz_klientowi_kategorie @ID_Klienta = @ID_Klienta
 	DECLARE @ID_Kategorii_Klienta INT
 	DECLARE @Rabat_Klienta FLOAT
 	SET @ID_Kategorii_Klienta = ( SELECT [ID Kategorii] FROM Klienci WHERE @ID_Klienta = [ID Klienta] )
@@ -380,15 +380,22 @@ BEGIN
 	
 END
 
+--przyklad
+SELECT * FROM Zamowienia
+JOIN [Szczegoly zamowien] AS S ON Zamowienia.[ID Zamowienia] = S.[ID Zamowienia]
+WHERE S.[ID Zamowienia] = ( SELECT MAX( [ID Zamowienia] ) FROM Zamowienia )
+
 DECLARE @Koszyk Pozycje_Zamowienia_TYP
 INSERT INTO @Koszyk VALUES
 ( 1, 2 ),
 ( 2, 1 ),
 ( 3, 1 )
 
-SELECT * FROM Zamowienia
 EXECUTE dbo.zloz_zamowienie @pozycje_zamowienia = @Koszyk, @ID_Klienta = 4, @Metoda_Wysylki = 1, @ID_Punktu_Odbioru = 1
+
 SELECT * FROM Zamowienia
+JOIN [Szczegoly zamowien] AS S ON Zamowienia.[ID Zamowienia] = S.[ID Zamowienia]
+WHERE S.[ID Zamowienia] = ( SELECT MAX( [ID Zamowienia] ) FROM Zamowienia )
 
 -------------------------------------------------------------------------------------------------------------
 
