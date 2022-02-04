@@ -133,6 +133,7 @@ BEGIN
 	RETURN @Wydatki
 END
 
+GO
 SELECT dbo.miesieczne_wydatki_klienta( 4 )
 
 --------------------------------------------------------------------------------------------------
@@ -149,4 +150,4 @@ CREATE FUNCTION historia_zatrudnien_na_stanowisku( @ID_Stanowiska INT ) RETURNS 
 )
 
 GO
-SELECT dbo.historia_zatrudnien_na_stanowisku( 1 )
+SELECT * FROM dbo.historia_zatrudnien_na_stanowisku( 1 )
